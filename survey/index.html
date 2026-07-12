@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arch arch | Survey</title>
+    <link rel="stylesheet" href="survey.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="logo" href="../" aria-label="arch arch home">
+                <img src="../assets/logo.png" alt="arch arch" width="152" height="37">
+            </a>
+
+            <nav class="corner-nav" aria-label="Locations">
+                <span class="corner-nav__item">n</span>
+                <span class="corner-nav__item corner-nav__item--boxed">x</span>
+                <span class="corner-nav__item">y</span>
+            </nav>
+        </div>
+    </header>
+
+    <aside class="lang-nav" aria-label="Language">
+        <p class="lang-nav__item">EN .</p>
+        <p class="lang-nav__item">CN .</p>
+    </aside>
+
+    <div class="page-viewport">
+        <div class="page-canvas">
+            <form class="survey-form" action="#" method="post" novalidate>
+                <div class="survey-form__row">
+                    <div class="field multi-select" data-field="brings-you" data-required="true">
+                        <label class="field__label" id="brings-you-label">
+                            What brings you to us? *
+                            <span class="field__hint">(Multiple choice)</span>
+                        </label>
+                        <div class="multi-select__control">
+                            <button
+                                type="button"
+                                class="field__box multi-select__trigger"
+                                id="brings-you"
+                                aria-labelledby="brings-you-label"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                            >
+                                <span class="multi-select__value"></span>
+                            </button>
+                            <div class="multi-select__panel" role="listbox" aria-multiselectable="true" hidden>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Launching a new brand">
+                                    <span>Launching a new brand</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Rebranding an existing business">
+                                    <span>Rebranding an existing business</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Brand strategy">
+                                    <span>Brand strategy</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Logo & visual identity">
+                                    <span>Logo &amp; visual identity</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Packaging design">
+                                    <span>Packaging design</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Website design">
+                                    <span>Website design</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Marketing materials">
+                                    <span>Marketing materials</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Ongoing design support">
+                                    <span>Ongoing design support</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brings_you" value="Other">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div></div>
+
+                    <div class="field">
+                        <label class="field__label" for="remember-one">
+                            If people remember only one thing about your brand, what should it be?
+                        </label>
+                        <div class="field__box" id="remember-one" role="textbox" aria-readonly="true"></div>
+                    </div>
+                </div>
+
+                <div class="survey-form__row">
+                    <div class="field multi-select" data-field="challenge" data-required="true" data-max="3">
+                        <label class="field__label" id="challenge-label">
+                            What challenge are you hoping this project will solve? *
+                            <span class="field__hint">(Select up to 3)</span>
+                        </label>
+                        <div class="multi-select__control">
+                            <button
+                                type="button"
+                                class="field__box multi-select__trigger"
+                                id="challenge"
+                                aria-labelledby="challenge-label"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                            >
+                                <span class="multi-select__value"></span>
+                            </button>
+                            <div class="multi-select__panel" role="listbox" aria-multiselectable="true" hidden>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Low brand recognition">
+                                    <span>Low brand recognition</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Inconsistent brand identity">
+                                    <span>Inconsistent brand identity</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Outdated visual identity">
+                                    <span>Outdated visual identity</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Attracting the right customers">
+                                    <span>Attracting the right customers</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Standing out from competitors">
+                                    <span>Standing out from competitors</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Launching a new product or service">
+                                    <span>Launching a new product or service</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Entering a new market">
+                                    <span>Entering a new market</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Building trust & credibility">
+                                    <span>Building trust &amp; credibility</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Clarifying our positioning">
+                                    <span>Clarifying our positioning</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="challenge" value="Other">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div></div>
+
+                    <div class="field multi-select" data-field="achieve" data-required="true" data-max="3">
+                        <label class="field__label" id="achieve-label">
+                            What would you like this project to help your business achieve? *
+                            <span class="field__hint">(Select up to 3)</span>
+                        </label>
+                        <div class="multi-select__control">
+                            <button
+                                type="button"
+                                class="field__box multi-select__trigger"
+                                id="achieve"
+                                aria-labelledby="achieve-label"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                            >
+                                <span class="multi-select__value"></span>
+                            </button>
+                            <div class="multi-select__panel" role="listbox" aria-multiselectable="true" hidden>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Increase brand awareness">
+                                    <span>Increase brand awareness</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Attract new customers">
+                                    <span>Attract new customers</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Increase sales">
+                                    <span>Increase sales</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Support a product launch">
+                                    <span>Support a product launch</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Reach a new audience">
+                                    <span>Reach a new audience</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Improve customer trust">
+                                    <span>Improve customer trust</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Differentiate from competitors">
+                                    <span>Differentiate from competitors</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Increase perceived value">
+                                    <span>Increase perceived value</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Prepare for growth">
+                                    <span>Prepare for growth</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="achieve" value="Other">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="survey-form__row">
+                    <div class="field multi-select" data-field="brand-feel" data-required="true" data-max="3">
+                        <label class="field__label" id="brand-feel-label">
+                            How should your brand feel? *
+                            <span class="field__hint">(Select up to 3)</span>
+                        </label>
+                        <div class="multi-select__control">
+                            <button
+                                type="button"
+                                class="field__box multi-select__trigger"
+                                id="brand-feel"
+                                aria-labelledby="brand-feel-label"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                            >
+                                <span class="multi-select__value"></span>
+                            </button>
+                            <div class="multi-select__panel" role="listbox" aria-multiselectable="true" hidden>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Modern">
+                                    <span>Modern</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Timeless">
+                                    <span>Timeless</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Bold">
+                                    <span>Bold</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Minimal">
+                                    <span>Minimal</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Premium">
+                                    <span>Premium</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Sophisticated">
+                                    <span>Sophisticated</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Human">
+                                    <span>Human</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Approachable">
+                                    <span>Approachable</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Trustworthy">
+                                    <span>Trustworthy</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Friendly">
+                                    <span>Friendly</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Playful">
+                                    <span>Playful</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Innovative">
+                                    <span>Innovative</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Authentic">
+                                    <span>Authentic</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Sustainable">
+                                    <span>Sustainable</span>
+                                </label>
+                                <label class="multi-select__option">
+                                    <input type="checkbox" name="brand_feel" value="Other">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div></div>
+
+                    <div class="field">
+                        <label class="field__label" for="anything-else">
+                            Is there anything else you'd like us to know?
+                        </label>
+                        <div class="field__box" id="anything-else" role="textbox" aria-readonly="true"></div>
+                    </div>
+                </div>
+
+                <div class="survey-form__row survey-form__row--audience">
+                    <div class="field">
+                        <label class="field__label" for="audience">
+                            Who is your target audience? *
+                        </label>
+                        <div class="field__box" id="audience" role="textbox" aria-readonly="true"></div>
+                    </div>
+
+                    <div></div>
+                    <div></div>
+                </div>
+
+                <div class="survey-form__row survey-form__row--contact">
+                    <div class="field">
+                        <label class="field__label" for="industry">Industry *</label>
+                        <input class="field__input" id="industry" name="industry" type="text" autocomplete="organization">
+                    </div>
+
+                    <div></div>
+
+                    <div class="field">
+                        <label class="field__label" for="country">Country/ Region *</label>
+                        <input class="field__input" id="country" name="country" type="text" autocomplete="country-name">
+                    </div>
+                </div>
+
+                <div class="survey-form__row survey-form__row--contact-mid">
+                    <div class="field">
+                        <label class="field__label" for="contact-name">Contact Name *</label>
+                        <input class="field__input" id="contact-name" name="contact_name" type="text" autocomplete="name">
+                    </div>
+
+                    <div></div>
+
+                    <div class="field">
+                        <label class="field__label" for="phone">Phone Number *</label>
+                        <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="survey-form__row survey-form__row--contact-last">
+                    <div class="field">
+                        <label class="field__label" for="email">Email *</label>
+                        <input class="field__input" id="email" name="email" type="email" autocomplete="email">
+                    </div>
+
+                    <div></div>
+
+                    <div class="field">
+                        <label class="field__label" for="website">Website/Social Media</label>
+                        <input class="field__input" id="website" name="website" type="url" autocomplete="url">
+                    </div>
+                </div>
+
+                <div class="survey-form__submit-row">
+                    <button class="survey-form__submit" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="survey.js"></script>
+</body>
+</html>

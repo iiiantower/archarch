@@ -3,66 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>arch arch | Oakwood Residence</title>
+    <title>arch arch</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <header class="site-header" aria-label="Main navigation">
-        <a class="brand" href="#" aria-label="arch arch home">arch arch</a>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="logo" href="#" aria-label="arch arch home">
+                <img src="assets/logo.png" alt="arch arch" width="152" height="37">
+            </a>
 
-        <nav class="side-nav" aria-label="Project sections">
-            <a href="#">work</a>
-            <a class="active" href="#">concept</a>
-            <a href="#">lab</a>
-        </nav>
-
-        <nav class="corner-nav" aria-label="Locations">
-            <a href="#">n</a>
-            <a href="#">x</a>
-            <a class="active" href="#">y</a>
-        </nav>
+            <nav class="corner-nav" aria-label="Locations">
+                <span class="corner-nav__item">n</span>
+                <span class="corner-nav__item corner-nav__item--boxed">x</span>
+                <span class="corner-nav__item">y</span>
+            </nav>
+        </div>
     </header>
 
-    <main class="project-page">
-        <section class="intro" aria-labelledby="project-title">
-            <p class="eyebrow">
-                <span id="project-title">Oakwood Residence</span>
-                <span class="divider">-</span>
-                <span class="muted">concept study</span>
-            </p>
-            <p class="summary">
-                This is a self initiated conceptual project for design exploration from images on
-                several New palette includes materials and text study by conceptual presentation.
-                All rights remain with their respective owners.
-            </p>
-        </section>
+    <div class="page-viewport">
+        <main class="desktop-1" aria-label="Desktop 1 homepage">
+            <section class="gallery" aria-label="Project gallery">
+                <figure class="tile tile--1">
+                    <img src="assets/image-1.png" alt="">
+                </figure>
+                <figure class="tile tile--6">
+                    <img src="assets/image-6.png" alt="">
+                </figure>
+                <figure class="tile tile--4">
+                    <img src="assets/image-4.png" alt="">
+                </figure>
+                <figure class="tile tile--pin">
+                    <img class="tile__photo" src="assets/pin-on-life.png" alt="">
+                    <img class="tile__icon" src="assets/pin-icon.png" alt="">
+                </figure>
+                <a class="tile tile--2 tile--link" href="projects/#oakwood-residence" aria-label="Oakwood Resiclence project">
+                    <img src="assets/image-2.png" alt="">
+                    <span class="tile__label">Oakwood Resiclence</span>
+                </a>
+                <figure class="tile tile--5">
+                    <img src="assets/image-5.png" alt="">
+                </figure>
+            </section>
 
-        <section class="feature" aria-label="Oakwood Residence project">
-            <figure class="hero-card">
-                <img src="assets/oakwood-residence.png" alt="Oakwood Residence garden wall concept">
-            </figure>
+            <article class="manifesto">
+                <p>Open it.</p>
+                <p>
+                    It is a toolbox with physical presence.<br>
+                    It requires two fingerprints to unlock.<sup class="ref">¹</sup>
+                </p>
+                <p class="manifesto__gap" aria-hidden="true">&nbsp;</p>
+                <p>Tools.</p>
+                <p>
+                    There are many tools.<br>
+                    They all call it ∩.
+                </p>
+                <p>
+                    When ∩ is applied to a problem and its context, x, the resulting state is called y.<sup class="ref">²</sup>
+                </p>
+                <p>They make tools.</p>
+                <p class="manifesto__gap" aria-hidden="true">&nbsp;</p>
+                <p>Close it.</p>
+                <p>Without a perfect fit on every side, it cannot be closed.</p>
+                <p>Observe. Question. Hypothesize. Experiment. Analyze. Conclude. Infer. Verify. Observe. Question.</p>
+                <p class="manifesto__gap" aria-hidden="true">&nbsp;</p>
+                <p>The cycle repeats.</p>
+                <p>The toolbox is a sphere.<sup class="ref">³</sup></p>
+                <p class="manifesto__gap manifesto__gap--large" aria-hidden="true">&nbsp;</p>
 
-            <div class="project-copy">
-                <h1>Oakwood Residence</h1>
-                <div class="description">
-                    <p>
-                        Oakwood Residence is a serviced apartment that thoughtfully blends the comfort
-                        of home with the refinement of hotel living. Designed with attention to
-                        proportion, materials, and natural light, the spaces offer a calm and balanced
-                        atmosphere suited for both short stays and extended living.
-                    </p>
-                    <p>
-                        Privacy, functionality, and attentive services come together to support a
-                        lifestyle that feels effortless yet well-considered. Whether for business or
-                        everyday living, Oakwood Residence provides a place where one can settle in,
-                        slow down, and feel at ease within the city.
-                    </p>
+                <p class="manifesto__note">
+                    <span class="ref">1</span>. Bridge (<span class="manifesto__han">跨</span>). Founded by two partners with interdisciplinary backgrounds in graphic design, architecture, and performance art. They understand design as both a mode of communication and an interdisciplinary practice.
+                </p>
+                <p class="manifesto__note">
+                    <span class="ref">2</span>. ∩(x) = y.<sup class="ref">⁴</sup>
+                </p>
+                <p class="manifesto__note">
+                    <span class="ref">3</span>. Flexible Structure. A design methodology is a mechanism that is adjustable, responsive to feedback, and capable of evolving.
+                </p>
+                <p class="manifesto__note manifesto__note--last">
+                    <span class="ref">4</span>. arch arch is a research-driven design practice. It focuses on the design methodology ∩, investigating each project's specific context x to reconstruct cognition (meaning) and perception (experience), y.
+                </p>
+            </article>
+
+            <footer class="site-footer">
+                <p class="site-footer__copyright">© arch arch Co. Ltd.</p>
+
+                <div class="site-footer__ad">
+                    <p>AD</p>
+                    <p class="site-footer__gap" aria-hidden="true">&nbsp;</p>
+                    <p>KC. Chiang</p>
+                    <p>Kinyo Chan</p>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <a class="scroll-cue" href="#project-title" aria-label="Back to project title">&darr;</a>
-    <script src="index.js"></script>
+                <div class="site-footer__contact">
+                    <p>We are physically based in Shanghai</p>
+                    <p>Please reach us via email</p>
+                    <p>info@archarch.net</p>
+                </div>
+
+                <a class="site-footer__cue" href="#" aria-label="Scroll down">↓</a>
+            </footer>
+        </main>
+    </div>
 </body>
 </html>

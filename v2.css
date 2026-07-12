@@ -1,0 +1,193 @@
+/* Desktop - 3 */
+
+position: relative;
+width: 1440px;
+height: 2016px;
+
+background: #FFFFFF;
+
+
+/* Open it. It is a toolbox with physical presence. It requires two fingerprints to unlock.¹ Tools. There are many tools. They all call it ∩. When ∩ is applied to a problem and its context, x, the resulting state is called y.² They make tools. Close it. Without a perfect fit on every side, it cannot be closed. Observe. Question. Hypothesize. Experiment. Analyze. Conclude. Infer. Verify. Observe. Question. The cycle repeats. The toolbox is a sphere.³ 1. Bridge (跨). Founded by two partners with interdisciplinary backgrounds in graphic design, architecture, and performance art. They understand design as both a mode of communication and an interdisciplinary practice. 2. ∩(x) = y.⁴ 3. Flexible Structure. A design methodology is a mechanism that is adjustable, responsive to feedback, and capable of evolving. 4. arch arch is a research-driven design practice. It focuses on the design methodology ∩, investigating each project's specific context x to reconstruct cognition (meaning) and perception (experience), y. */
+
+position: absolute;
+width: 644px;
+height: 735px;
+left: 80px;
+top: 1192px;
+
+font-family: 'HertzWebW04-Medium';
+font-style: normal;
+font-weight: 500;
+font-size: 22px;
+line-height: 27px;
+/* leading-trim and text-edge are draft CSS properties.
+
+Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+*/
+leading-trim: both;
+text-edge: cap;
+
+color: #000000;
+
+
+
+/* image 1 */
+
+position: absolute;
+width: 300px;
+height: 439px;
+left: 224px;
+top: 166px;
+
+background: url(image.png);
+
+
+/* image 2 */
+
+position: absolute;
+width: 300px;
+height: 198px;
+left: 1061px;
+top: 742px;
+
+background: url(image.png);
+
+
+/* image 4 */
+
+position: absolute;
+width: 300px;
+height: 300px;
+left: 643px;
+top: 374px;
+
+background: url(image.png);
+
+
+/* image 6 */
+
+position: absolute;
+width: 300px;
+height: 399px;
+left: 1061px;
+top: 209px;
+
+background: url(image.png);
+
+
+/* image 5 */
+
+position: absolute;
+width: 300px;
+height: 400px;
+left: 643px;
+top: 797px;
+
+background: url(image.png);
+
+
+/* Group 1 */
+
+position: absolute;
+width: 300px;
+height: 256px;
+left: 224px;
+top: 729px;
+
+
+
+/* Pin on Life 1 */
+
+position: absolute;
+width: 300px;
+height: 256px;
+left: 224px;
+top: 729px;
+
+background: url(Pin on Life.jpg);
+
+
+/* Layer_1 */
+
+position: absolute;
+width: 26px;
+height: 61px;
+left: 276px;
+top: 791px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 29.57%;
+right: 29.78%;
+top: 63.24%;
+bottom: 0%;
+
+background: #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 0%;
+right: 0.01%;
+top: 0%;
+bottom: 65.49%;
+
+background: #FFFFFF;
+
+
+/* Vector */
+
+position: absolute;
+left: 0.68%;
+right: 0.71%;
+top: 36.79%;
+bottom: 45.54%;
+
+background: #FFFFFF;
+
+
+/* image 8 */
+
+position: absolute;
+width: 152px;
+height: 37px;
+left: 26px;
+top: 23px;
+
+background: url(image.png);
+
+
+/* Rectangle 1 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 34px;
+height: 50px;
+left: 1343px;
+top: 17px;
+
+border: 1px solid #DADADA;
+
+
+/* n x y */
+
+position: absolute;
+width: 107px;
+height: 36px;
+left: 1306px;
+top: 21px;
+
+font-family: 'HertzWebW04-Medium';
+font-style: normal;
+font-weight: 500;
+font-size: 28px;
+line-height: 35px;
+text-align: center;
+
+color: #000000;
+
