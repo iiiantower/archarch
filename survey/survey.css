@@ -58,7 +58,7 @@ body {
 }
 
 .logo,
-.corner-nav {
+.header-cue {
     pointer-events: auto;
 }
 
@@ -80,28 +80,29 @@ body {
     object-fit: contain;
 }
 
-.corner-nav {
+.header-cue {
     position: absolute;
-    top: 21px;
-    right: 19px;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 1;
-}
-
-.corner-nav__item--boxed {
+    top: 17px;
+    right: 63px;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
     width: 34px;
     height: 50px;
-    margin-top: -4px;
+    padding: 2px 2px 2px 4px;
     border: 1px solid var(--border-soft);
+    overflow: hidden;
+}
+
+.header-cue__caret {
+    flex-shrink: 0;
+    width: 15px;
+    height: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+    transform: rotate(90deg);
+    transform-origin: 0 0;
 }
 
 .lang-nav {
