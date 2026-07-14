@@ -32,12 +32,9 @@ function updateProjectNav() {
 
 function scrollToProjectTarget() {
     const hash = window.location.hash;
-
-    if (!hash) {
-        return;
-    }
-
-    const target = document.querySelector(hash);
+    const target = hash
+        ? document.querySelector(hash)
+        : document.querySelector(".project");
 
     if (!target) {
         return;
@@ -56,6 +53,21 @@ function handlePageReady() {
     scrollToProjectTarget();
     updateProjectNav();
 }
+
+const cornerNav = document.querySelector(".corner-nav");
+
+cornerNav?.querySelector('[data-nav="y"]')?.addEventListener("click", (event) => {
+    const href = event.currentTarget.getAttribute("href");
+
+    if (!href?.startsWith("#")) {
+        return;
+    }
+
+    event.preventDefault();
+    history.replaceState(null, "", href);
+    scrollToProjectTarget();
+    updateProjectNav();
+});
 
 window.addEventListener("scroll", updateProjectNav, { passive: true });
 window.addEventListener("resize", updateProjectNav);

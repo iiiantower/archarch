@@ -1,9 +1,17 @@
+@font-face {
+    font-family: "Hertz";
+    src: url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --paper: #ffffff;
     --ink: #000000;
     --muted: #949494;
     --border-soft: #949494;
-    --font-serif: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
+    --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
     --canvas-height: 1500px;
     --rail-top: 166px;
@@ -108,7 +116,7 @@ body {
 .lang-nav {
     position: fixed;
     top: var(--rail-top);
-    left: calc(50% - var(--canvas-width) / 2 + var(--rail-left));
+    left: max(var(--rail-left), calc(50% - var(--canvas-width) / 2 + var(--rail-left)));
     z-index: 90;
     margin: 0;
     font-family: var(--font-serif);
@@ -121,7 +129,7 @@ body {
     position: relative;
     width: fit-content;
     margin: 0;
-    cursor: default;
+    cursor: pointer;
 }
 
 .lang-nav__item::after {
@@ -135,6 +143,14 @@ body {
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.45s ease;
+}
+
+.lang-nav__item.is-active::after {
+    transform: scaleX(1);
+}
+
+.lang-nav:has(.lang-nav__item:hover) .lang-nav__item.is-active:not(:hover)::after {
+    transform: scaleX(0);
 }
 
 .lang-nav__item:hover::after {
@@ -189,13 +205,9 @@ body {
 .field__label {
     margin: 0;
     font: inherit;
+    font-size: 16px;
+    line-height: 22px;
     flex-grow: 1;
-}
-
-.field__hint {
-    display: block;
-    font-size: inherit;
-    line-height: inherit;
 }
 
 .field__box,

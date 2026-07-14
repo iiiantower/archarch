@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>arch arch | Survey</title>
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="survey.css">
 </head>
 <body>
@@ -20,8 +21,8 @@
     </header>
 
     <aside class="lang-nav" aria-label="Language">
-        <p class="lang-nav__item">EN .</p>
-        <p class="lang-nav__item">CN .</p>
+        <p class="lang-nav__item is-active" data-lang="en">EN .</p>
+        <p class="lang-nav__item" data-lang="cn">CN .</p>
     </aside>
 
     <div class="page-viewport">
@@ -31,7 +32,7 @@
                     <div class="field multi-select" data-field="brings-you" data-required="true">
                         <label class="field__label" id="brings-you-label">
                             What brings you to us? *
-                            <span class="field__hint">(Multiple choice)</span>
+                            <br>(Multiple choice)
                         </label>
                         <div class="multi-select__control">
                             <button
@@ -98,8 +99,7 @@
                 <div class="survey-form__row">
                     <div class="field multi-select" data-field="challenge" data-required="true" data-max="3">
                         <label class="field__label" id="challenge-label">
-                            What challenge are you hoping this project will solve? *
-                            <span class="field__hint">(Select up to 3)</span>
+                            What challenge are you hoping this project will solve? *(Select up to 3)
                         </label>
                         <div class="multi-select__control">
                             <button
@@ -162,7 +162,7 @@
                     <div class="field multi-select" data-field="achieve" data-required="true" data-max="3">
                         <label class="field__label" id="achieve-label">
                             What would you like this project to help your business achieve? *
-                            <span class="field__hint">(Select up to 3)</span>
+                            <br>(Select up to 3)
                         </label>
                         <div class="multi-select__control">
                             <button
@@ -225,7 +225,7 @@
                     <div class="field multi-select" data-field="brand-feel" data-required="true" data-max="3">
                         <label class="field__label" id="brand-feel-label">
                             How should your brand feel? *
-                            <span class="field__hint">(Select up to 3)</span>
+                            <br>(Select up to 3)
                         </label>
                         <div class="multi-select__control">
                             <button

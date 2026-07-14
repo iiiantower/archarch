@@ -1,9 +1,17 @@
+@font-face {
+    font-family: "Hertz";
+    src: url("assets/Hertz Web W04 Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --paper: #ffffff;
     --ink: #000000;
     --accent: #4867e4;
     --border-soft: #949494;
-    --font-serif: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
+    --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
     --canvas-height: 2453px;
 }
@@ -38,10 +46,8 @@ body {
 
 .site-header__inner {
     position: relative;
-    width: var(--canvas-width);
-    max-width: 100%;
+    width: 100%;
     height: 67px;
-    margin: 0 auto;
 }
 
 .logo,
@@ -68,12 +74,20 @@ body {
 }
 
 .corner-nav {
+    --corner-nav-width: 107px;
+    --corner-nav-height: 36px;
+    --corner-nav-frame-width: 34px;
+    --corner-nav-frame-height: 50px;
+    --corner-nav-frame-center: 54.12px;
+
     position: absolute;
-    top: 21px;
+    top: 28px;
     right: 27px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 18px;
+    width: var(--corner-nav-width);
+    height: var(--corner-nav-height);
     margin: 0;
     font-family: var(--font-serif);
     font-size: 28px;
@@ -81,21 +95,55 @@ body {
     line-height: 1;
 }
 
-.corner-nav__item--boxed {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 50px;
-    margin-top: -4px;
-    border: 1px solid var(--border-soft);
+.corner-nav[data-active="n"] {
+    --corner-nav-frame-center: 7.7px;
 }
 
-.desktop-1 {
+.corner-nav[data-active="x"] {
+    --corner-nav-frame-center: 54.12px;
+}
+
+.corner-nav[data-active="y"] {
+    --corner-nav-frame-center: 99.92px;
+}
+
+.corner-nav__frame {
+    position: absolute;
+    top: 50%;
+    left: var(--corner-nav-frame-center);
+    width: var(--corner-nav-frame-width);
+    height: var(--corner-nav-frame-height);
+    border: 1px solid var(--border-soft);
+    pointer-events: none;
+    /* lowercase ink sits below the em/box geometric center */
+    transform: translate(-50%, calc(-50% + 2px));
+}
+
+.corner-nav__item {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.homepage {
     position: relative;
     width: var(--canvas-width);
     min-height: var(--canvas-height);
     margin: 0 auto;
+    padding-bottom: 80px;
     background: var(--paper);
 }
 
@@ -179,14 +227,14 @@ body {
     height: 300px;
 }
 
-.tile--pin {
+.tile--sirio {
     top: 729px;
     left: 224px;
     width: 300px;
     height: 256px;
 }
 
-.tile--pin .tile__photo {
+.tile--sirio .tile__photo {
     position: absolute;
     inset: 0;
     width: 116.73%;
@@ -196,7 +244,7 @@ body {
     object-fit: cover;
 }
 
-.tile--pin .tile__icon {
+.tile--sirio .tile__icon {
     position: absolute;
     top: 62px;
     left: 52px;
@@ -220,11 +268,9 @@ body {
 }
 
 .manifesto {
-    position: absolute;
-    top: 1185px;
-    left: 80px;
+    position: relative;
     width: 644px;
-    margin: 0;
+    margin: 0 0 0 80px;
     font-family: var(--font-serif);
     font-size: 22px;
     font-weight: 500;
@@ -241,7 +287,7 @@ body {
 }
 
 .manifesto__gap--large {
-    height: 27px;
+    height: 54px;
 }
 
 .manifesto__note {
@@ -249,8 +295,8 @@ body {
     line-height: 1.35;
 }
 
-.manifesto__note--last {
-    margin-top: 27px;
+.manifesto p.manifesto__note--last {
+    margin-top: calc(16px * 1.35 * 2);
     font-size: 14px;
     line-height: 1.35;
 }
@@ -265,9 +311,23 @@ body {
     font-size: 0.92em;
 }
 
+.manifesto sup.ref {
+    vertical-align: baseline;
+    position: relative;
+    top: -0.2em;
+    margin-left: -0.12em;
+    line-height: 0;
+}
+
 .site-footer {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    display: grid;
+    grid-template-columns: 294px 294px;
+    grid-template-rows: auto auto;
+    column-gap: 56px;
+    row-gap: 51px;
+    width: 644px;
+    margin: 145px 0 0 80px;
     pointer-events: none;
 }
 
@@ -277,20 +337,10 @@ body {
     font-weight: 500;
 }
 
-.site-footer__copyright {
-    position: absolute;
-    top: 2198px;
-    left: 80px;
-    width: 294px;
-    font-size: 14px;
-    line-height: 1.35;
-}
-
 .site-footer__ad {
-    position: absolute;
-    top: 2065px;
-    left: 430px;
-    width: 294px;
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
     font-size: 16px;
     line-height: 1.35;
     text-align: right;
@@ -300,21 +350,33 @@ body {
     height: 16px;
 }
 
+.site-footer__copyright {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.35;
+}
+
 .site-footer__contact-group {
-    position: absolute;
-    top: 2198px;
-    left: 430px;
+    grid-column: 2;
+    grid-row: 2;
+    position: relative;
     z-index: 5;
-    width: 294px;
+    width: 100%;
     text-align: right;
+    overflow: visible;
 }
 
 .site-footer__contact-wrap {
+    position: relative;
     display: inline-flex;
     flex-direction: column;
     align-items: flex-end;
     max-width: 100%;
+    padding-bottom: 50px;
     text-align: left;
+    overflow: visible;
 }
 
 .site-footer__contact {
@@ -324,15 +386,16 @@ body {
 }
 
 .site-footer__cue {
-    position: relative;
+    position: absolute;
+    left: 0;
+    bottom: 0;
     z-index: 6;
     display: inline-flex;
     align-items: flex-start;
     box-sizing: border-box;
-    align-self: flex-start;
     width: 34px;
     height: 50px;
-    margin-top: 0;
+    margin: 0;
     padding: 2px 0 2px 4px;
     border: 1px solid var(--border-soft);
     overflow: hidden;
@@ -345,7 +408,7 @@ body {
 }
 
 .site-footer__cue:hover {
-    width: 100%;
+    width: calc(100% + 4px);
 }
 
 .site-footer__cue__text {
@@ -362,7 +425,7 @@ body {
 }
 
 .site-footer__cue:hover .site-footer__cue__text {
-    max-width: 100%;
+    max-width: 280px;
 }
 
 .site-footer__cue__caret {
