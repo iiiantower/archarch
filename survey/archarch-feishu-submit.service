@@ -1,0 +1,15 @@
+[Unit]
+Description=archarch Feishu survey submit API
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/archarch
+EnvironmentFile=/opt/archarch/survey/.env
+ExecStart=/usr/bin/node /opt/archarch/survey/aliyun-submit-server.mjs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

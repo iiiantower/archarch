@@ -5,13 +5,13 @@
     }
 
     // Local: node survey/dev-server.mjs
-    // Production: Cloudflare Worker (survey/feishu-submit.worker.js)
-    // Override: window.ARCHARCH_FEISHU_SUBMIT_URL = "https://...."
+    // Production: Aliyun Node API (or Cloudflare Worker). Override anytime:
+    //   window.ARCHARCH_FEISHU_SUBMIT_URL = "https://api.example.com/api/feishu-submit"
     const FEISHU_SUBMIT_URL =
         window.ARCHARCH_FEISHU_SUBMIT_URL ||
         (location.hostname === "127.0.0.1" || location.hostname === "localhost"
             ? "http://127.0.0.1:8787/api/feishu-submit"
-            : "https://archarch-feishu-submit.iian.workers.dev");
+            : "https://api.archarch.net/api/feishu-submit");
 
     const FEISHU_FIELDS = {
         brings_you: {
