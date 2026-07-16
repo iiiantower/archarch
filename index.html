@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>arch arch</title>
-    <link rel="stylesheet" href="index.css?v=4">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="homepage.css">
 </head>
 <body>
     <header class="site-header">
@@ -13,40 +14,41 @@
                 <img src="assets/logo.png" alt="arch arch" width="152" height="37">
             </a>
 
-            <nav class="corner-nav" aria-label="Locations">
-                <span class="corner-nav__item">n</span>
-                <span class="corner-nav__item corner-nav__item--boxed">x</span>
-                <span class="corner-nav__item">y</span>
+            <nav class="corner-nav" data-active="x" aria-label="Page sections">
+                <span class="corner-nav__frame" aria-hidden="true"></span>
+                <button type="button" class="corner-nav__item" data-nav="n" aria-label="Manifesto">n</button>
+                <button type="button" class="corner-nav__item" data-nav="x" aria-label="Gallery">x</button>
+                <a class="corner-nav__item" data-nav="y" href="projects/#oakwood-residence" aria-label="Projects">y</a>
             </nav>
         </div>
     </header>
 
     <div class="page-viewport">
-        <main class="desktop-1" aria-label="Desktop 1 homepage">
-            <section class="gallery" aria-label="Project gallery">
+        <main class="homepage" aria-label="Homepage">
+            <section class="gallery" id="gallery" aria-label="Project gallery">
                 <figure class="tile tile--1">
-                    <img src="assets/image-1.png" alt="">
+                    <img src="assets/fei-hua-ling.png" alt="">
                 </figure>
                 <figure class="tile tile--6">
-                    <img src="assets/image-6.png" alt="">
+                    <img src="assets/birkenstock-x-tekla.png" alt="">
                 </figure>
                 <figure class="tile tile--4">
-                    <img src="assets/image-4.png" alt="">
+                    <img src="assets/xian-xiang.png" alt="">
                 </figure>
-                <figure class="tile tile--pin">
-                    <img class="tile__photo" src="assets/pin-on-life.png" alt="">
-                    <img class="tile__icon" src="assets/pin-icon.png" alt="">
+                <figure class="tile tile--sirio">
+                    <img class="tile__photo" src="assets/sirio.png" alt="">
+                    <img class="tile__icon" src="assets/siriologo.svg" alt="">
                 </figure>
                 <a class="tile tile--2 tile--link" href="projects/#oakwood-residence" aria-label="Oakwood Resiclence project">
-                    <img src="assets/image-2.png" alt="">
+                    <img src="assets/oakwood-resiclence.png" alt="">
                     <span class="tile__label">Oakwood Resiclence</span>
                 </a>
                 <figure class="tile tile--5">
-                    <img src="assets/image-5.png" alt="">
+                    <img src="assets/fang-suo.png" alt="">
                 </figure>
             </section>
 
-            <article class="manifesto">
+            <article class="manifesto" id="manifesto">
                 <p>Open it.</p>
                 <p>
                     It is a toolbox with physical presence.<br>
@@ -56,10 +58,10 @@
                 <p>Tools.</p>
                 <p>
                     There are many tools.<br>
-                    They all call it ∩.
+                    They all call it ∩ (n).
                 </p>
                 <p>
-                    When ∩ is applied to a problem and its context, x, the resulting state is called y.<sup class="ref">²</sup>
+                    When ∩ (n) is applied to a problem and its context, x, the resulting state is called y.<sup class="ref">²</sup>
                 </p>
                 <p>They make tools.</p>
                 <p class="manifesto__gap" aria-hidden="true">&nbsp;</p>
@@ -75,7 +77,7 @@
                     <span class="ref">1</span>. Bridge (<span class="manifesto__han">跨</span>). Founded by two partners with interdisciplinary backgrounds in graphic design, architecture, and performance art. They understand design as both a mode of communication and an interdisciplinary practice.
                 </p>
                 <p class="manifesto__note">
-                    <span class="ref">2</span>. ∩(x) = y.<sup class="ref">⁴</sup>
+                    <span class="ref">2</span>. n(x) = y.<sup class="ref">⁴</sup>
                 </p>
                 <p class="manifesto__note">
                     <span class="ref">3</span>. Flexible Structure. A design methodology is a mechanism that is adjustable, responsive to feedback, and capable of evolving.
@@ -86,14 +88,14 @@
             </article>
 
             <footer class="site-footer">
-                <p class="site-footer__copyright">© arch arch Co. Ltd.</p>
-
                 <div class="site-footer__ad">
                     <p>AD</p>
                     <p class="site-footer__gap" aria-hidden="true">&nbsp;</p>
                     <p>KC. Chiang</p>
                     <p>Kinyo Chan</p>
                 </div>
+
+                <p class="site-footer__copyright">© arch arch Co. Ltd.</p>
 
                 <div class="site-footer__contact-group">
                     <div class="site-footer__contact-wrap">
@@ -112,5 +114,6 @@
             </footer>
         </main>
     </div>
+    <script src="homepage.js"></script>
 </body>
 </html>

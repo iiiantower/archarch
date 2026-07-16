@@ -1,9 +1,17 @@
+@font-face {
+    font-family: "Hertz";
+    src: url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --paper: #ffffff;
     --ink: #000000;
     --muted: #949494;
     --border-soft: #949494;
-    --font-serif: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
+    --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
     --rail-top: 166px;
     --rail-left: 80px;
@@ -49,10 +57,8 @@ body {
 
 .site-header__inner {
     position: relative;
-    width: var(--canvas-width);
-    max-width: 100%;
+    width: 100%;
     height: 67px;
-    margin: 0 auto;
 }
 
 .logo,
@@ -62,7 +68,7 @@ body {
 
 .logo {
     position: absolute;
-    top: 23px;
+    top: 24px;
     left: 26px;
     display: block;
     width: 152px;
@@ -79,12 +85,20 @@ body {
 }
 
 .corner-nav {
+    --corner-nav-width: 107px;
+    --corner-nav-height: 36px;
+    --corner-nav-frame-width: 34px;
+    --corner-nav-frame-height: 50px;
+    --corner-nav-frame-center: 99.92px;
+
     position: absolute;
-    top: 21px;
-    right: 19px;
+    top: 28px;
+    right: 27px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 18px;
+    width: var(--corner-nav-width);
+    height: var(--corner-nav-height);
     margin: 0;
     font-family: var(--font-serif);
     font-size: 28px;
@@ -92,15 +106,46 @@ body {
     line-height: 1;
 }
 
-.corner-nav__item--boxed {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 50px;
-    margin-top: -4px;
+.corner-nav[data-active="n"] {
+    --corner-nav-frame-center: 7.7px;
+}
+
+.corner-nav[data-active="x"] {
+    --corner-nav-frame-center: 54.12px;
+}
+
+.corner-nav[data-active="y"] {
+    --corner-nav-frame-center: 99.92px;
+}
+
+.corner-nav__frame {
+    position: absolute;
+    top: 50%;
+    left: var(--corner-nav-frame-center);
+    width: var(--corner-nav-frame-width);
+    height: var(--corner-nav-frame-height);
     border: 1px solid var(--border-soft);
-    background: transparent;
+    pointer-events: none;
+    transform: translate(-50%, calc(-50% + 2px));
+}
+
+.corner-nav__item {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .sidebar {
@@ -124,7 +169,7 @@ body {
 .sidebar__item {
     position: relative;
     width: fit-content;
-    cursor: default;
+    cursor: pointer;
 }
 
 .sidebar__item::after {
@@ -138,6 +183,14 @@ body {
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.45s ease;
+}
+
+.sidebar__item.is-active::after {
+    transform: scaleX(1);
+}
+
+.sidebar:has(.sidebar__item:hover) .sidebar__item.is-active:not(:hover)::after {
+    transform: scaleX(0);
 }
 
 .sidebar__item:hover::after {
