@@ -92,7 +92,7 @@
                         <label class="field__label" for="remember-one">
                             If people remember only one thing about your brand, what should it be?
                         </label>
-                        <div class="field__box" id="remember-one" role="textbox" aria-readonly="true"></div>
+                        <input class="field__box field__box--editable" id="remember-one" name="remember_one" type="text">
                     </div>
                 </div>
 
@@ -309,7 +309,7 @@
                         <label class="field__label" for="anything-else">
                             Is there anything else you'd like us to know?
                         </label>
-                        <div class="field__box" id="anything-else" role="textbox" aria-readonly="true"></div>
+                        <input class="field__box field__box--editable" id="anything-else" name="anything_else" type="text">
                     </div>
                 </div>
 
@@ -318,7 +318,7 @@
                         <label class="field__label" for="audience">
                             Who is your target audience? *
                         </label>
-                        <div class="field__box" id="audience" role="textbox" aria-readonly="true"></div>
+                        <input class="field__box field__box--editable" id="audience" name="audience" type="text" required>
                     </div>
 
                     <div></div>
@@ -328,35 +328,35 @@
                 <div class="survey-form__row survey-form__row--contact">
                     <div class="field">
                         <label class="field__label" for="industry">Industry *</label>
-                        <input class="field__input" id="industry" name="industry" type="text" autocomplete="organization">
+                        <input class="field__input" id="industry" name="industry" type="text" autocomplete="organization" required>
                     </div>
 
                     <div></div>
 
                     <div class="field">
                         <label class="field__label" for="country">Country/ Region *</label>
-                        <input class="field__input" id="country" name="country" type="text" autocomplete="country-name">
+                        <input class="field__input" id="country" name="country" type="text" autocomplete="country-name" required>
                     </div>
                 </div>
 
                 <div class="survey-form__row survey-form__row--contact-mid">
                     <div class="field">
                         <label class="field__label" for="contact-name">Contact Name *</label>
-                        <input class="field__input" id="contact-name" name="contact_name" type="text" autocomplete="name">
+                        <input class="field__input" id="contact-name" name="contact_name" type="text" autocomplete="name" required>
                     </div>
 
                     <div></div>
 
                     <div class="field">
                         <label class="field__label" for="phone">Phone Number *</label>
-                        <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel">
+                        <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel" required>
                     </div>
                 </div>
 
                 <div class="survey-form__row survey-form__row--contact-last">
                     <div class="field">
                         <label class="field__label" for="email">Email *</label>
-                        <input class="field__input" id="email" name="email" type="email" autocomplete="email">
+                        <input class="field__input" id="email" name="email" type="email" autocomplete="email" required>
                     </div>
 
                     <div></div>

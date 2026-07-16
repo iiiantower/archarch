@@ -234,11 +234,19 @@ body {
     text-align: left;
 }
 
-.field__box--placeholder {
+input.field__box--editable {
+    display: block;
+    cursor: text;
     color: var(--muted);
 }
 
+input.field__box--editable:focus {
+    outline: none;
+    border-color: var(--border-soft);
+}
+
 .field--error .field__box,
+.field--error .field__input,
 .field--error .multi-select__trigger {
     border-color: var(--ink);
 }
