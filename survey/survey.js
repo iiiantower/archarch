@@ -175,8 +175,42 @@
             trigger.focus();
         }
 
+        function truncateLabel(text) {
+            return text.length > 10 ? `${text.slice(0, 10)}..` : text;
+        }
+
         function updateDisplay() {
-            valueEl.textContent = getSelectedValues().join(", ");
+            valueEl.replaceChildren();
+
+            getSelectedValues().forEach((value) => {
+                const chip = document.createElement("span");
+                chip.className = "multi-select__chip";
+
+                const label = document.createElement("span");
+                label.className = "multi-select__chip-label";
+                label.textContent = truncateLabel(value);
+                label.title = value;
+
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.className = "multi-select__chip-remove";
+                remove.setAttribute("aria-label", `Remove ${value}`);
+                remove.textContent = "×";
+                remove.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const checkbox = checkboxes.find((item) => item.value === value);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        updateDisplay();
+                    }
+                });
+
+                chip.append(label, remove);
+                valueEl.append(chip);
+            });
+
             updateDisabledState();
             clearError();
         }
@@ -356,7 +390,8 @@
             return;
         }
         submitButton.disabled = isSubmitting;
-        submitButton.textContent = isSubmitting ? "Submitting…" : "Submit";
+        submitButton.classList.toggle("is-submitting", isSubmitting);
+        submitButton.textContent = isSubmitting ? "Submitting" : "Submit";
     }
 
     form.addEventListener("submit", async (event) => {

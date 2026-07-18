@@ -19,6 +19,13 @@
     --form-left: 651px;
     --form-col-width: 275px;
     --form-col-gap: 68px;
+    --lang-line-height: 40px;
+    --field-label-line-height: 22px;
+    --field-label-lines: 3;
+    /* First question label has 2 text lines, bottom-aligned in the 3-line slot. */
+    --first-question-text-lines: 2;
+    --field-input-gap: 85px;
+    --field-label-to-box-gap: 14px;
 }
 
 * {
@@ -44,7 +51,14 @@ body {
     width: var(--canvas-width);
     min-height: var(--canvas-height);
     margin: 0 auto;
-    padding: var(--rail-top) 0 200px;
+    /* First question's first text line bottom aligns with EN line bottom. */
+    padding:
+        calc(
+            var(--rail-top) + var(--lang-line-height)
+            - (var(--field-label-lines) - var(--first-question-text-lines) + 1)
+                * var(--field-label-line-height)
+        )
+        0 200px;
 }
 
 .site-header {
@@ -122,7 +136,7 @@ body {
     font-family: var(--font-serif);
     font-size: 22px;
     font-weight: 500;
-    line-height: 40px;
+    line-height: var(--lang-line-height);
 }
 
 .lang-nav__item {
@@ -171,20 +185,22 @@ body {
 .survey-form__row {
     display: grid;
     grid-template-columns: var(--form-col-width) var(--form-col-gap) var(--form-col-width);
-    align-items: stretch;
-    margin-bottom: 24px;
+    align-items: start;
+    /* 85px = space from one input bottom to the next input top (includes next label). */
+    margin-bottom: calc(
+        var(--field-input-gap)
+        - var(--field-label-lines) * var(--field-label-line-height)
+        - var(--field-label-to-box-gap)
+    );
 }
 
 .survey-form__row--audience {
     margin-bottom: 91px;
 }
 
-.survey-form__row--contact {
-    margin-bottom: 44px;
-}
-
+.survey-form__row--contact,
 .survey-form__row--contact-mid {
-    margin-bottom: 57px;
+    margin-bottom: 45px;
 }
 
 .survey-form__row--contact-last {
@@ -195,27 +211,46 @@ body {
     visibility: hidden;
 }
 
+.survey-form__row--contact .field__label,
+.survey-form__row--contact-mid .field__label,
+.survey-form__row--contact-last .field__label {
+    height: var(--field-label-line-height);
+}
+
+.survey-form__row--contact .field,
+.survey-form__row--contact-mid .field,
+.survey-form__row--contact-last .field {
+    gap: 0;
+}
+
 .field {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    height: 100%;
+    gap: var(--field-label-to-box-gap);
 }
 
 .field__label {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(var(--field-label-lines) * var(--field-label-line-height));
     margin: 0;
+    overflow: hidden;
     font: inherit;
     font-size: 16px;
-    line-height: 22px;
-    flex-grow: 1;
+    line-height: var(--field-label-line-height);
 }
 
 .field__box,
 .field__input {
+    box-sizing: border-box;
     width: 100%;
     height: 50px;
     margin: 0;
-    padding: 11px 12px;
+    padding: 2px 4px;
     border: 1px solid var(--border-soft);
     background: var(--paper);
     font-family: var(--font-serif);
@@ -229,18 +264,27 @@ body {
 
 .field__box {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
     cursor: default;
     text-align: left;
 }
 
-input.field__box--editable {
+textarea.field__box--editable {
     display: block;
+    resize: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
     cursor: text;
     color: var(--muted);
 }
 
-input.field__box--editable:focus {
+textarea.field__box--editable:focus {
     outline: none;
     border-color: var(--border-soft);
 }
@@ -257,8 +301,9 @@ input.field__box--editable:focus {
 
 .multi-select__trigger {
     width: 100%;
+    height: 50px;
     cursor: pointer;
-    padding-right: 12px;
+    padding: 2px 4px;
     border: 1px solid var(--border-soft);
     background: var(--paper);
 }
@@ -271,13 +316,30 @@ input.field__box--editable:focus {
 
 .multi-select--open .multi-select__trigger {
     border-color: var(--border-soft);
+    border-bottom-color: transparent;
+}
+
+.multi-select--open .multi-select__control::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc(100% - 1px);
+    z-index: 21;
+    box-sizing: border-box;
+    width: 100%;
+    height: 5px;
+    background: var(--paper);
+    border-left: 1px solid var(--border-soft);
+    border-right: 1px solid var(--border-soft);
+    pointer-events: none;
 }
 
 .multi-select__value {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: 4px;
     width: 100%;
     min-width: 0;
     font-style: normal;
@@ -287,8 +349,39 @@ input.field__box--editable:focus {
     color: var(--muted);
 }
 
-.multi-select__value:empty::before {
-    content: "";
+.multi-select__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 15px;
+}
+
+.multi-select__chip-label {
+    min-width: 0;
+}
+
+.multi-select__chip-remove {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.multi-select__chip-remove:hover,
+.multi-select__chip-remove:focus-visible {
+    outline: none;
+    opacity: 0.7;
 }
 
 .multi-select--open {
@@ -306,6 +399,7 @@ input.field__box--editable:focus {
     overflow-y: auto;
     border: 1px solid var(--border-soft);
     border-color: var(--border-soft);
+    border-top-color: transparent;
     background: var(--paper);
     padding: 8px 0;
 }
@@ -368,9 +462,11 @@ input.field__box--editable:focus {
     border: 0;
     border-bottom: 1px solid var(--border-soft);
     border-radius: 0;
-    padding: 0 0 8px;
-    height: auto;
-    min-height: 56px;
+    /* One line of text, vertically centered between label and underline. */
+    height: calc(var(--field-label-to-box-gap) + var(--field-label-line-height));
+    min-height: 0;
+    padding: 0 4px;
+    line-height: var(--field-label-line-height);
 }
 
 .field__input::placeholder {
@@ -401,8 +497,15 @@ input.field__box--editable:focus {
     cursor: pointer;
 }
 
-.survey-form__submit:active {
+.survey-form__submit:hover,
+.survey-form__submit:disabled,
+.survey-form__submit.is-submitting {
     background: var(--muted);
     border-color: var(--muted);
     color: var(--paper);
+}
+
+.survey-form__submit:disabled,
+.survey-form__submit.is-submitting {
+    cursor: default;
 }
