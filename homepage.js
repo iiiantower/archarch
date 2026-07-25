@@ -3,10 +3,12 @@ const FRAME_X = 54.12;
 const FRAME_Y = 99.92;
 const FRAME_BY_KEY = { n: FRAME_N, x: FRAME_X, y: FRAME_Y };
 /* Viewport offset when jumping to #manifesto (matches scroll-margin-top). */
-const MANIFESTO_TOP = 320;
+const MANIFESTO_TOP = 100;
 const SCROLL_MS = 500;
 
 const nav = document.querySelector(".corner-nav");
+const logo = document.querySelector(".logo");
+const siteHeader = document.querySelector(".site-header");
 const gallery = document.getElementById("gallery");
 const manifesto = document.getElementById("manifesto");
 
@@ -49,6 +51,21 @@ function setFrameCenter(center, { animate = false } = {}) {
     nav.style.setProperty("--corner-nav-frame-center", `${center}px`);
 }
 
+function updateLogoFromGalleryScroll() {
+    if (!logo || !gallery) {
+        return;
+    }
+
+    // Start when gallery bottom meets the top bar; then move 1:1 with gallery.
+    const headerBottom = siteHeader
+        ? siteHeader.getBoundingClientRect().bottom
+        : 67;
+    const past = headerBottom - gallery.getBoundingClientRect().bottom;
+    const offsetY = past > 0 ? -past : 0;
+
+    logo.style.transform = `translateY(${offsetY}px)`;
+}
+
 function smoothScrollTo(targetY, duration = SCROLL_MS) {
     const startY = window.scrollY;
     const delta = targetY - startY;
@@ -83,6 +100,7 @@ function jumpTo(targetY) {
 
 function updateFrameFromScroll() {
     if (!nav || !manifesto) {
+        updateLogoFromGalleryScroll();
         return;
     }
 
@@ -98,6 +116,8 @@ function updateFrameFromScroll() {
         scrollFrameCenter = FRAME_X + (FRAME_N - FRAME_X) * progress;
         nav.dataset.active = progress >= 1 ? "n" : "x";
     }
+
+    updateLogoFromGalleryScroll();
 
     if (!hoverKey) {
         setFrameCenter(scrollFrameCenter, { animate: false });

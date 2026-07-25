@@ -523,9 +523,18 @@ textarea.field__box--editable:focus {
         padding: 0 52px 100px;
     }
 
+    /* Logo + cue scroll with the page; keep Figma spacing to EN/CN. */
+    .site-header {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+    }
+
     .site-header__inner {
         width: 100%;
-        height: 60px;
+        height: 61px;
+        margin: 0;
     }
 
     .logo {
@@ -546,7 +555,8 @@ textarea.field__box--editable:focus {
         left: auto;
         z-index: auto;
         width: fit-content;
-        margin: 100px 0 40px 52px;
+        /* Header ends at 61px; EN at 100px → 39px gap. Then 40px to first question. */
+        margin: 39px 0 40px 52px;
         font-size: 15px;
         line-height: 28px;
     }

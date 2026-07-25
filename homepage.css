@@ -13,7 +13,7 @@
     --border-soft: #949494;
     --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
-    --canvas-height: 2453px;
+    --canvas-height: 2643px;
 }
 
 * {
@@ -64,6 +64,7 @@ body {
     height: 37px;
     line-height: 0;
     text-decoration: none;
+    will-change: transform;
 }
 
 .logo img {
@@ -264,8 +265,8 @@ body {
     position: relative;
     width: 644px;
     /* 230px below gallery; 79px from the browser/viewport left edge. */
-    margin: 230px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
-    scroll-margin-top: 320px;
+    margin: 200px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    scroll-margin-top: 100px;
     font-family: var(--font-serif);
     font-size: 20px;
     font-weight: 500;
@@ -295,7 +296,7 @@ body {
 }
 
 .manifesto p.manifesto__note--last {
-    margin-top: calc(16px * 1.35 * 3);
+    margin-top: calc(14px * 1.35 * 3);
     font-size: 14px;
     line-height: 1.35;
 }
@@ -318,6 +319,22 @@ body {
     line-height: 0;
 }
 
+.layer-1 {
+    position: absolute;
+    top: 1893px;
+    left: 889px;
+    width: 361px;
+    height: 234px;
+    margin: 0;
+    pointer-events: none;
+}
+
+.layer-1 img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .site-footer {
     position: relative;
     display: grid;
@@ -326,7 +343,7 @@ body {
     column-gap: 56px;
     row-gap: 51px;
     width: 644px;
-    margin: 145px 0 0 80px;
+    margin: 145px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
     pointer-events: none;
 }
 
