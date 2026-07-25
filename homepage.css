@@ -28,6 +28,36 @@ body {
     color: var(--ink);
 }
 
+/* Reserve scrollbar gutter always so fixed header/nxy don't shift.
+   Thumb only appears while scrolling. */
+html {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+html.is-scrolling {
+    scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+}
+
+html.is-scrolling::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.35);
+}
+
 .page-viewport {
     width: 100%;
     overflow-x: auto;
@@ -57,11 +87,12 @@ body {
 
 .logo {
     position: absolute;
-    top: 24px;
-    left: 26px;
+    top: 22px;
+    left: 24px;
     display: block;
-    width: 152px;
-    height: 37px;
+    /* Matched to 1440 reference: ink ~112px wide within asset padding. */
+    width: 126px;
+    height: 31px;
     line-height: 0;
     text-decoration: none;
     will-change: transform;
@@ -75,15 +106,16 @@ body {
 }
 
 .corner-nav {
-    --corner-nav-width: 107px;
-    --corner-nav-height: 36px;
-    --corner-nav-frame-width: 34px;
-    --corner-nav-frame-height: 50px;
-    --corner-nav-frame-center: 54.12px;
+    /* Matched to 1440 reference: ~22.1px type, 28×42 frame. */
+    --corner-nav-width: 90px;
+    --corner-nav-height: 30px;
+    --corner-nav-frame-width: 28px;
+    --corner-nav-frame-height: 42px;
+    --corner-nav-frame-center: 45px;
 
     position: absolute;
-    top: 28px;
-    right: 27px;
+    top: 24px;
+    right: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,21 +123,21 @@ body {
     height: var(--corner-nav-height);
     margin: 0;
     font-family: var(--font-serif);
-    font-size: 28px;
+    font-size: 22.5px;
     font-weight: 500;
     line-height: 1;
 }
 
 .corner-nav[data-active="n"] {
-    --corner-nav-frame-center: 7.7px;
+    --corner-nav-frame-center: 6.5px;
 }
 
 .corner-nav[data-active="x"] {
-    --corner-nav-frame-center: 54.12px;
+    --corner-nav-frame-center: 45px;
 }
 
 .corner-nav[data-active="y"] {
-    --corner-nav-frame-center: 99.92px;
+    --corner-nav-frame-center: 83.5px;
 }
 
 .corner-nav__frame {
@@ -136,7 +168,7 @@ body {
     color: inherit;
     font: inherit;
     font-family: var(--font-serif);
-    font-size: 28px;
+    font-size: 22.5px;
     font-weight: 500;
     line-height: 1;
     text-decoration: none;
@@ -155,7 +187,7 @@ body {
 .gallery {
     position: relative;
     width: 100%;
-    height: 1185px;
+    height: 1010px;
 }
 
 .tile {
@@ -200,32 +232,33 @@ body {
     object-fit: cover;
 }
 
+/* Gallery band ~955px wide on 1440 (cols 253 + gutters 98), from reference shot. */
 .tile--1 {
-    top: 166px;
-    left: 224px;
-    width: 300px;
-    height: 439px;
+    top: 140px;
+    left: 305px;
+    width: 253px;
+    height: 370px;
 }
 
 .tile--6 {
-    top: 209px;
-    left: 1061px;
-    width: 300px;
-    height: 399px;
+    top: 176px;
+    left: 1007px;
+    width: 253px;
+    height: 336px;
 }
 
 .tile--4 {
-    top: 374px;
-    left: 643px;
-    width: 300px;
-    height: 300px;
+    top: 315px;
+    left: 657px;
+    width: 253px;
+    height: 253px;
 }
 
 .tile--sirio {
-    top: 729px;
-    left: 224px;
-    width: 300px;
-    height: 256px;
+    top: 615px;
+    left: 305px;
+    width: 253px;
+    height: 216px;
 }
 
 .tile--sirio .tile__photo {
@@ -240,32 +273,33 @@ body {
 
 .tile--sirio .tile__icon {
     position: absolute;
-    top: 62px;
-    left: 52px;
-    width: 26px;
-    height: 61px;
+    top: 52px;
+    left: 44px;
+    width: 22px;
+    height: 51px;
     object-fit: contain;
 }
 
 .tile--2 {
-    top: 742px;
-    left: 1061px;
-    width: 300px;
-    height: 198px;
+    top: 626px;
+    left: 1007px;
+    width: 253px;
+    height: 167px;
 }
 
 .tile--5 {
-    top: 797px;
-    left: 643px;
-    width: 300px;
-    height: 400px;
+    top: 672px;
+    left: 657px;
+    width: 253px;
+    height: 337px;
 }
 
 .manifesto {
     position: relative;
     width: 644px;
-    /* 230px below gallery; 79px from the browser/viewport left edge. */
-    margin: 200px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    /* 230px below gallery; 79px from the left edge. Page zoom keeps the
+       canvas exactly viewport-wide, so no 100vw compensation is needed. */
+    margin: 200px 0 0 79px;
     scroll-margin-top: 100px;
     font-family: var(--font-serif);
     font-size: 20px;
@@ -343,7 +377,7 @@ body {
     column-gap: 56px;
     row-gap: 51px;
     width: 644px;
-    margin: 145px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    margin: 145px 0 0 79px;
     pointer-events: none;
 }
 
@@ -404,13 +438,14 @@ body {
 .site-footer__cue {
     position: absolute;
     left: 0;
-    bottom: 0;
+    /* Keep top-left fixed while matching nxy frame 28×42 (was 34×50 at bottom:0). */
+    bottom: 8px;
     z-index: 6;
     display: inline-flex;
     align-items: flex-start;
     box-sizing: border-box;
-    width: 34px;
-    height: 50px;
+    width: 28px;
+    height: 42px;
     margin: 0;
     padding: 2px 0 2px 4px;
     border: 1px solid var(--border-soft);
