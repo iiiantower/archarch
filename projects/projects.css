@@ -34,6 +34,36 @@ body {
     color: var(--ink);
 }
 
+/* Reserve scrollbar gutter always so fixed header/nxy don't shift.
+   Thumb only appears while scrolling. */
+html {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+html.is-scrolling {
+    scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+}
+
+html.is-scrolling::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.35);
+}
+
 .page-viewport {
     width: 100%;
     overflow-x: auto;
@@ -68,11 +98,11 @@ body {
 
 .logo {
     position: absolute;
-    top: 24px;
-    left: 26px;
+    top: 22px;
+    left: 24px;
     display: block;
-    width: 152px;
-    height: 37px;
+    width: 126px;
+    height: 31px;
     line-height: 0;
     text-decoration: none;
 }
@@ -85,15 +115,16 @@ body {
 }
 
 .corner-nav {
-    --corner-nav-width: 107px;
-    --corner-nav-height: 36px;
-    --corner-nav-frame-width: 34px;
-    --corner-nav-frame-height: 50px;
-    --corner-nav-frame-center: 99.92px;
+    /* Matched to 1440 reference: ~22.1px type, 28×42 frame. */
+    --corner-nav-width: 90px;
+    --corner-nav-height: 30px;
+    --corner-nav-frame-width: 28px;
+    --corner-nav-frame-height: 42px;
+    --corner-nav-frame-center: 83.5px;
 
     position: absolute;
-    top: 28px;
-    right: 27px;
+    top: 24px;
+    right: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -101,21 +132,21 @@ body {
     height: var(--corner-nav-height);
     margin: 0;
     font-family: var(--font-serif);
-    font-size: 28px;
+    font-size: 22.5px;
     font-weight: 500;
     line-height: 1;
 }
 
 .corner-nav[data-active="n"] {
-    --corner-nav-frame-center: 7.7px;
+    --corner-nav-frame-center: 6.5px;
 }
 
 .corner-nav[data-active="x"] {
-    --corner-nav-frame-center: 54.12px;
+    --corner-nav-frame-center: 45px;
 }
 
 .corner-nav[data-active="y"] {
-    --corner-nav-frame-center: 99.92px;
+    --corner-nav-frame-center: 83.5px;
 }
 
 .corner-nav__frame {
@@ -145,7 +176,7 @@ body {
     color: inherit;
     font: inherit;
     font-family: var(--font-serif);
-    font-size: 28px;
+    font-size: 22.5px;
     font-weight: 500;
     line-height: 1;
     text-decoration: none;

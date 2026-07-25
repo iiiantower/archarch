@@ -1,6 +1,6 @@
-const FRAME_N = 7.7;
-const FRAME_X = 54.12;
-const FRAME_Y = 99.92;
+const FRAME_N = 6.5;
+const FRAME_X = 45;
+const FRAME_Y = 83.5;
 const FRAME_BY_KEY = { n: FRAME_N, x: FRAME_X, y: FRAME_Y };
 /* Viewport offset when jumping to #manifesto (matches scroll-margin-top). */
 const MANIFESTO_TOP = 100;
@@ -8,7 +8,6 @@ const SCROLL_MS = 500;
 
 const nav = document.querySelector(".corner-nav");
 const logo = document.querySelector(".logo");
-const siteHeader = document.querySelector(".site-header");
 const gallery = document.getElementById("gallery");
 const manifesto = document.getElementById("manifesto");
 
@@ -56,11 +55,10 @@ function updateLogoFromGalleryScroll() {
         return;
     }
 
-    // Start when gallery bottom meets the top bar; then move 1:1 with gallery.
-    const headerBottom = siteHeader
-        ? siteHeader.getBoundingClientRect().bottom
-        : 67;
-    const past = headerBottom - gallery.getBoundingClientRect().bottom;
+    // Start when gallery bottom meets the logo bottom; then move 1:1 with gallery.
+    // Use offset box (ignores transform) so the threshold stays at the resting logo.
+    const logoBottom = logo.offsetTop + logo.offsetHeight;
+    const past = logoBottom - gallery.getBoundingClientRect().bottom;
     const offsetY = past > 0 ? -past : 0;
 
     logo.style.transform = `translateY(${offsetY}px)`;

@@ -40,6 +40,36 @@ body {
     color: var(--ink);
 }
 
+/* Reserve scrollbar gutter always so fixed header/nxy don't shift.
+   Thumb only appears while scrolling. */
+html {
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+html.is-scrolling {
+    scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+}
+
+html.is-scrolling::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.35);
+}
+
 .page-viewport {
     width: 100%;
     overflow-x: auto;
@@ -86,11 +116,11 @@ body {
 
 .logo {
     position: absolute;
-    top: 23px;
-    left: 26px;
+    top: 21px;
+    left: 24px;
     display: block;
-    width: 152px;
-    height: 37px;
+    width: 126px;
+    height: 31px;
     line-height: 0;
     text-decoration: none;
 }
@@ -104,14 +134,15 @@ body {
 
 .header-cue {
     position: absolute;
-    top: 17px;
-    right: 63px;
+    /* Match homepage nxy "x" frame: 28×42 at top 20 / right 39. */
+    top: 20px;
+    right: 39px;
     display: inline-flex;
     align-items: flex-start;
     justify-content: flex-start;
     box-sizing: border-box;
-    width: 34px;
-    height: 50px;
+    width: 28px;
+    height: 42px;
     padding: 2px 2px 2px 4px;
     border: 1px solid var(--border-soft);
     overflow: hidden;

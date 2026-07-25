@@ -1,5 +1,5 @@
 const RAIL_TOP = 166;
-const FRAME_BY_KEY = { n: 7.7, x: 54.12, y: 99.92 };
+const FRAME_BY_KEY = { n: 6.5, x: 45, y: 83.5 };
 const FRAME_Y = FRAME_BY_KEY.y;
 
 function updateProjectNav() {
