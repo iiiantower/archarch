@@ -1,4 +1,6 @@
 const RAIL_TOP = 166;
+const FRAME_BY_KEY = { n: 7.7, x: 54.12, y: 99.92 };
+const FRAME_Y = FRAME_BY_KEY.y;
 
 function updateProjectNav() {
     document.querySelectorAll(".project").forEach((project) => {
@@ -55,6 +57,50 @@ function handlePageReady() {
 }
 
 const cornerNav = document.querySelector(".corner-nav");
+let cornerHoverKey = null;
+let cornerHoverLeaveTimer = 0;
+let cornerScrollFrameCenter = FRAME_Y;
+
+function setCornerFrameCenter(center, { animate = false } = {}) {
+    if (!cornerNav) {
+        return;
+    }
+
+    cornerNav.classList.toggle("is-hovering", animate);
+    cornerNav.style.setProperty("--corner-nav-frame-center", `${center}px`);
+}
+
+function bindCornerNavHover() {
+    if (!cornerNav) {
+        return;
+    }
+
+    cornerNav.querySelectorAll(".corner-nav__item").forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            window.clearTimeout(cornerHoverLeaveTimer);
+            cornerHoverKey = item.dataset.nav;
+            const center = FRAME_BY_KEY[cornerHoverKey];
+
+            if (typeof center === "number") {
+                setCornerFrameCenter(center, { animate: true });
+            }
+        });
+    });
+
+    cornerNav.addEventListener("mouseleave", () => {
+        cornerHoverKey = null;
+        setCornerFrameCenter(cornerScrollFrameCenter, { animate: true });
+        window.clearTimeout(cornerHoverLeaveTimer);
+        cornerHoverLeaveTimer = window.setTimeout(() => {
+            if (!cornerHoverKey) {
+                cornerNav.classList.remove("is-hovering");
+            }
+        }, 450);
+    });
+}
+
+bindCornerNavHover();
+setCornerFrameCenter(cornerScrollFrameCenter, { animate: false });
 
 cornerNav?.querySelector('[data-nav="y"]')?.addEventListener("click", (event) => {
     const href = event.currentTarget.getAttribute("href");

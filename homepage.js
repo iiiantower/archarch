@@ -1,11 +1,18 @@
 const FRAME_N = 7.7;
 const FRAME_X = 54.12;
+const FRAME_Y = 99.92;
+const FRAME_BY_KEY = { n: FRAME_N, x: FRAME_X, y: FRAME_Y };
+/* Viewport offset when jumping to #manifesto (matches scroll-margin-top). */
 const MANIFESTO_TOP = 320;
 const SCROLL_MS = 500;
 
 const nav = document.querySelector(".corner-nav");
 const gallery = document.getElementById("gallery");
 const manifesto = document.getElementById("manifesto");
+
+let scrollFrameCenter = FRAME_X;
+let hoverKey = null;
+let hoverLeaveTimer = 0;
 
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -20,6 +27,7 @@ function getGalleryAnchorY() {
         return 0;
     }
 
+    // "x" — pin gallery top to the top of the viewport.
     return gallery.getBoundingClientRect().top + window.scrollY;
 }
 
@@ -28,7 +36,17 @@ function getManifestoAnchorY() {
         return 0;
     }
 
+    // "n" — pin manifesto top to MANIFESTO_TOP (includes the 230px gallery gap).
     return manifesto.getBoundingClientRect().top + window.scrollY - MANIFESTO_TOP;
+}
+
+function setFrameCenter(center, { animate = false } = {}) {
+    if (!nav) {
+        return;
+    }
+
+    nav.classList.toggle("is-hovering", animate);
+    nav.style.setProperty("--corner-nav-frame-center", `${center}px`);
 }
 
 function smoothScrollTo(targetY, duration = SCROLL_MS) {
@@ -73,16 +91,17 @@ function updateFrameFromScroll() {
     const span = manifestoY - galleryY;
 
     if (span <= 0) {
-        nav.style.setProperty("--corner-nav-frame-center", `${FRAME_X}px`);
+        scrollFrameCenter = FRAME_X;
         nav.dataset.active = "x";
-        return;
+    } else {
+        const progress = clamp((window.scrollY - galleryY) / span, 0, 1);
+        scrollFrameCenter = FRAME_X + (FRAME_N - FRAME_X) * progress;
+        nav.dataset.active = progress >= 1 ? "n" : "x";
     }
 
-    const progress = clamp((window.scrollY - galleryY) / span, 0, 1);
-    const center = FRAME_X + (FRAME_N - FRAME_X) * progress;
-
-    nav.style.setProperty("--corner-nav-frame-center", `${center}px`);
-    nav.dataset.active = progress >= 1 ? "n" : "x";
+    if (!hoverKey) {
+        setFrameCenter(scrollFrameCenter, { animate: false });
+    }
 }
 
 function scrollToManifesto(smooth = true) {
@@ -121,7 +140,38 @@ function applyHashTarget(smooth = false) {
     return false;
 }
 
+function bindCornerNavHover() {
+    if (!nav) {
+        return;
+    }
+
+    nav.querySelectorAll(".corner-nav__item").forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            window.clearTimeout(hoverLeaveTimer);
+            hoverKey = item.dataset.nav;
+            const center = FRAME_BY_KEY[hoverKey];
+
+            if (typeof center === "number") {
+                setFrameCenter(center, { animate: true });
+            }
+        });
+    });
+
+    nav.addEventListener("mouseleave", () => {
+        hoverKey = null;
+        setFrameCenter(scrollFrameCenter, { animate: true });
+        window.clearTimeout(hoverLeaveTimer);
+        hoverLeaveTimer = window.setTimeout(() => {
+            if (!hoverKey) {
+                nav.classList.remove("is-hovering");
+            }
+        }, 450);
+    });
+}
+
 if (nav) {
+    bindCornerNavHover();
+
     nav.querySelector('[data-nav="n"]')?.addEventListener("click", (event) => {
         event.preventDefault();
         history.replaceState(null, "", "#manifesto");

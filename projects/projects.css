@@ -129,6 +129,10 @@ body {
     transform: translate(-50%, calc(-50% + 2px));
 }
 
+.corner-nav.is-hovering .corner-nav__frame {
+    transition: left 0.45s ease;
+}
+
 .corner-nav__item {
     position: relative;
     z-index: 1;

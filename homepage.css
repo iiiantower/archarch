@@ -119,6 +119,10 @@ body {
     transform: translate(-50%, calc(-50% + 2px));
 }
 
+.corner-nav.is-hovering .corner-nav__frame {
+    transition: left 0.45s ease;
+}
+
 .corner-nav__item {
     position: relative;
     z-index: 1;
@@ -167,35 +171,24 @@ body {
     cursor: pointer;
 }
 
-.tile--link img {
+.tile:has(.tile__hover) .tile__photo,
+.tile:has(.tile__hover) .tile__hover {
     transition: opacity 0.25s ease;
 }
 
-.tile__label {
+.tile__hover {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    text-align: center;
-    font-family: var(--font-serif);
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 27px;
-    color: var(--ink);
-    background: var(--paper);
     opacity: 0;
-    transition: opacity 0.25s ease;
 }
 
-.tile--link:hover .tile__label,
-.tile--link:focus-visible .tile__label {
+.tile:has(.tile__hover):hover .tile__hover,
+.tile:has(.tile__hover):focus-within .tile__hover {
     opacity: 1;
 }
 
-.tile--link:hover img,
-.tile--link:focus-visible img {
+.tile:has(.tile__hover):hover .tile__photo,
+.tile:has(.tile__hover):focus-within .tile__photo {
     opacity: 0;
 }
 
@@ -270,11 +263,13 @@ body {
 .manifesto {
     position: relative;
     width: 644px;
-    margin: 0 0 0 80px;
+    /* 230px below gallery; 79px from the browser/viewport left edge. */
+    margin: 230px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    scroll-margin-top: 320px;
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
-    line-height: 27px;
+    line-height: 25px;
     color: var(--ink);
 }
 
@@ -283,11 +278,11 @@ body {
 }
 
 .manifesto__gap {
-    height: 27px;
+    height: 25px;
 }
 
 .manifesto__gap--large {
-    height: 54px;
+    height: 75px;
 }
 
 .manifesto__note {
@@ -295,8 +290,12 @@ body {
     line-height: 1.35;
 }
 
+.manifesto__note + .manifesto__note:not(.manifesto__note--last) {
+    margin-top: calc(16px * 1.35);
+}
+
 .manifesto p.manifesto__note--last {
-    margin-top: calc(16px * 1.35 * 2);
+    margin-top: calc(16px * 1.35 * 3);
     font-size: 14px;
     line-height: 1.35;
 }

@@ -509,3 +509,161 @@ textarea.field__box--editable:focus {
 .survey-form__submit.is-submitting {
     cursor: default;
 }
+
+/* Mobile: iPhone 17 survey frame — EN/CN first, one question per row */
+@media (max-width: 860px) {
+    .page-viewport {
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+
+    .page-canvas {
+        width: 100%;
+        min-height: 0;
+        padding: 0 52px 100px;
+    }
+
+    .site-header__inner {
+        width: 100%;
+        height: 60px;
+    }
+
+    .logo {
+        top: 10px;
+        left: 9px;
+        width: 118px;
+        height: 29px;
+    }
+
+    .header-cue {
+        top: 11px;
+        right: 10px;
+    }
+
+    .lang-nav {
+        position: relative;
+        top: auto;
+        left: auto;
+        z-index: auto;
+        width: fit-content;
+        margin: 100px 0 40px 52px;
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    .lang-nav__item::after {
+        bottom: 5px;
+    }
+
+    .survey-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 298px;
+        margin: 0;
+    }
+
+    .survey-form__row {
+        display: contents;
+        margin-bottom: 0;
+    }
+
+    .survey-form__row > div:empty {
+        display: none;
+    }
+
+    .survey-form__row--audience .field:last-child {
+        display: none;
+        visibility: visible;
+    }
+
+    .field {
+        width: 100%;
+        gap: 14px;
+        margin-bottom: 35px;
+    }
+
+    .field__label {
+        height: auto;
+        min-height: 0;
+        line-height: 24px;
+    }
+
+    .multi-select[data-field="brings-you"] {
+        order: 1;
+    }
+
+    .multi-select[data-field="challenge"] {
+        order: 2;
+    }
+
+    .multi-select[data-field="brand-feel"] {
+        order: 3;
+    }
+
+    .field:has(#audience) {
+        order: 4;
+        margin-bottom: 35px;
+    }
+
+    .field:has(#remember-one) {
+        order: 5;
+    }
+
+    .multi-select[data-field="achieve"] {
+        order: 6;
+    }
+
+    .field:has(#anything-else) {
+        order: 7;
+        margin-bottom: 71px;
+    }
+
+    .survey-form__row--contact .field,
+    .survey-form__row--contact-mid .field,
+    .survey-form__row--contact-last .field {
+        margin-bottom: 45px;
+    }
+
+    .field:has(#industry) {
+        order: 8;
+    }
+
+    .field:has(#contact-name) {
+        order: 9;
+    }
+
+    .field:has(#email) {
+        order: 10;
+    }
+
+    .field:has(#country) {
+        order: 11;
+    }
+
+    .field:has(#phone) {
+        order: 12;
+    }
+
+    .field:has(#website) {
+        order: 13;
+        margin-bottom: 0;
+    }
+
+    .survey-form__submit-row {
+        order: 14;
+        margin-top: 83px;
+        width: 100%;
+    }
+
+    .survey-form__submit {
+        width: 100%;
+        max-width: 275px;
+        font-size: 16px;
+    }
+
+    .multi-select__option {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+}
