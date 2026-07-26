@@ -1,6 +1,7 @@
 @font-face {
     font-family: "Hertz";
-    src: url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
+    src: url("../assets/Hertz-Web-W04-Medium.woff2") format("woff2"),
+        url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -164,6 +165,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     text-decoration: none;
 }
 
+.logo picture {
+    display: contents;
+}
+
 .logo img {
     display: block;
     width: 100%;
@@ -209,6 +214,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     position: absolute;
     top: var(--rail-top);
     left: var(--rail-left);
+    width: max-content;
     margin: 0;
     font-family: var(--font-serif);
     font-size: 22px;
@@ -223,6 +229,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     position: relative;
     width: fit-content;
     margin: 0;
+    white-space: nowrap;
     cursor: pointer;
 }
 

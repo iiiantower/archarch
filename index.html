@@ -6,13 +6,17 @@
     <title>arch arch</title>
     <link rel="icon" href="assets/favicon.png" type="image/png">
     <link rel="stylesheet" href="homepage.css">
+    <link rel="preload" as="image" href="assets/fei-hua-ling.webp" type="image/webp">
     <script src="page-zoom.js"></script>
 </head>
 <body>
     <header class="site-header">
         <div class="site-header__inner">
             <a class="logo" href="#" aria-label="arch arch home">
-                <img src="assets/logo.png" alt="arch arch" width="126" height="31">
+                <picture>
+                    <source type="image/webp" srcset="assets/logo.webp">
+                    <img src="assets/logo.png" alt="arch arch" width="126" height="31">
+                </picture>
             </a>
 
             <nav class="corner-nav" data-active="x" aria-label="Page sections">
@@ -29,25 +33,49 @@
         <main class="homepage" aria-label="Homepage">
             <section class="gallery" id="gallery" aria-label="Project gallery">
                 <figure class="tile tile--1">
-                    <img class="tile__photo" src="assets/fei-hua-ling.png" alt="">
-                    <img class="tile__hover" src="assets/fei-hua-ling-hover.png" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/fei-hua-ling.webp">
+                        <img class="tile__photo" src="assets/fei-hua-ling.png" alt="" width="560" height="818" fetchpriority="high" decoding="async">
+                    </picture>
+                    <picture>
+                        <source type="image/webp" srcset="assets/fei-hua-ling-hover.webp">
+                        <img class="tile__hover" src="assets/fei-hua-ling-hover.png" alt="" width="560" height="819" loading="lazy" decoding="async">
+                    </picture>
                 </figure>
                 <figure class="tile tile--6">
-                    <img src="assets/birkenstock-x-tekla.png" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/birkenstock-x-tekla.webp">
+                        <img src="assets/birkenstock-x-tekla.png" alt="" width="560" height="745" fetchpriority="high" decoding="async">
+                    </picture>
                 </figure>
                 <figure class="tile tile--4">
-                    <img src="assets/xian-xiang.png" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/xian-xiang.webp">
+                        <img src="assets/xian-xiang.png" alt="" width="560" height="559" decoding="async">
+                    </picture>
                 </figure>
                 <figure class="tile tile--sirio">
-                    <img class="tile__photo" src="assets/sirio.png" alt="">
-                    <img class="tile__icon" src="assets/siriologo.svg" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/sirio.webp">
+                        <img class="tile__photo" src="assets/sirio.png" alt="" width="600" height="438" loading="lazy" decoding="async">
+                    </picture>
+                    <img class="tile__icon" src="assets/siriologo.svg" alt="" loading="lazy" decoding="async">
                 </figure>
                 <a class="tile tile--2 tile--link" href="projects/#oakwood-residence" aria-label="Oakwood Resiclence project">
-                    <img class="tile__photo" src="assets/oakwood-resiclence.png" alt="">
-                    <img class="tile__hover" src="assets/oakwood-resiclence-hover.png" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/oakwood-resiclence.webp">
+                        <img class="tile__photo" src="assets/oakwood-resiclence.png" alt="" width="560" height="369" loading="lazy" decoding="async">
+                    </picture>
+                    <picture>
+                        <source type="image/webp" srcset="assets/oakwood-resiclence-hover.webp">
+                        <img class="tile__hover" src="assets/oakwood-resiclence-hover.png" alt="" width="560" height="370" loading="lazy" decoding="async">
+                    </picture>
                 </a>
                 <figure class="tile tile--5">
-                    <img src="assets/fang-suo.png" alt="">
+                    <picture>
+                        <source type="image/webp" srcset="assets/fang-suo.webp">
+                        <img src="assets/fang-suo.png" alt="" width="452" height="602" loading="lazy" decoding="async">
+                    </picture>
                 </figure>
             </section>
 

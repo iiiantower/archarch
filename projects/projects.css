@@ -1,6 +1,7 @@
 @font-face {
     font-family: "Hertz";
-    src: url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
+    src: url("../assets/Hertz-Web-W04-Medium.woff2") format("woff2"),
+        url("../assets/Hertz Web W04 Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -247,6 +248,7 @@ html.has-overlay-gutter::after {
 .sidebar__item {
     position: relative;
     width: fit-content;
+    white-space: nowrap;
     cursor: pointer;
 }
 
@@ -355,6 +357,11 @@ html.has-overlay-gutter::after {
 .media {
     overflow: hidden;
     background: #e8e8e8;
+}
+
+.media picture,
+.logo picture {
+    display: contents;
 }
 
 .media img {

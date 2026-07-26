@@ -1,6 +1,7 @@
 @font-face {
     font-family: "Hertz";
-    src: url("assets/Hertz Web W04 Medium.ttf") format("truetype");
+    src: url("assets/Hertz-Web-W04-Medium.woff2") format("woff2"),
+        url("assets/Hertz Web W04 Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -256,6 +257,12 @@ html.has-overlay-gutter::after {
 .tile:has(.tile__hover):hover .tile__photo,
 .tile:has(.tile__hover):focus-within .tile__photo {
     opacity: 0;
+}
+
+/* Keep <picture> wrappers out of the box tree so absolute hover layers still work. */
+.tile picture,
+.logo picture {
+    display: contents;
 }
 
 .tile img {
