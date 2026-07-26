@@ -14,6 +14,8 @@ const manifesto = document.getElementById("manifesto");
 let scrollFrameCenter = FRAME_X;
 let hoverKey = null;
 let hoverLeaveTimer = 0;
+/* Layout px from .logo top to alphabetic baseline (resting, no transform). */
+let logoBaselineInset = null;
 
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -28,6 +30,25 @@ function visualScale() {
     }
 
     return logo.getBoundingClientRect().height / logo.offsetHeight;
+}
+
+function measureLogoBaselineInset() {
+    if (!logo) {
+        return;
+    }
+
+    const pin = logo.querySelector(".logo__baseline-pin");
+    if (!pin) {
+        logoBaselineInset = logo.offsetHeight;
+        return;
+    }
+
+    const prev = logo.style.transform;
+    logo.style.transform = "none";
+    const z = visualScale();
+    logoBaselineInset =
+        (pin.getBoundingClientRect().top - logo.getBoundingClientRect().top) / z;
+    logo.style.transform = prev;
 }
 
 function easeInOutCubic(t) {
@@ -70,12 +91,14 @@ function updateLogoFromGalleryScroll() {
         return;
     }
 
-    // Start when gallery bottom meets the logo bottom; then move 1:1 with gallery.
-    // Offset box (layout px) ignores the transform, so the threshold stays at
-    // the resting logo; convert between layout and rendered px via the scale.
+    if (logoBaselineInset == null) {
+        measureLogoBaselineInset();
+    }
+
+    // Start when gallery bottom meets the logo baseline; then move 1:1.
     const z = visualScale();
-    const logoBottom = (logo.offsetTop + logo.offsetHeight) * z;
-    const past = logoBottom - gallery.getBoundingClientRect().bottom;
+    const logoBaseline = (logo.offsetTop + logoBaselineInset) * z;
+    const past = logoBaseline - gallery.getBoundingClientRect().bottom;
     const offsetY = past > 0 ? -past / z : 0;
 
     logo.style.transform = `translateY(${offsetY}px)`;
@@ -221,11 +244,16 @@ if (nav) {
 }
 
 window.addEventListener("scroll", updateFrameFromScroll, { passive: true });
-window.addEventListener("resize", updateFrameFromScroll);
+window.addEventListener("resize", () => {
+    measureLogoBaselineInset();
+    updateFrameFromScroll();
+});
 window.addEventListener("hashchange", () => applyHashTarget(true));
 window.addEventListener("load", () => {
+    measureLogoBaselineInset();
     if (!applyHashTarget(false)) {
         updateFrameFromScroll();
     }
 });
+measureLogoBaselineInset();
 updateFrameFromScroll();
