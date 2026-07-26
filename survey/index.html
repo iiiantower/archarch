@@ -11,7 +11,9 @@
 <body>
     <header class="site-header">
         <div class="site-header__inner">
-            <a class="logo" href="../" aria-label="arch arch home">arch arch</a>
+            <a class="logo" href="../" aria-label="arch arch home">
+                <img src="../assets/logo.png" alt="arch arch" width="126" height="31">
+            </a>
 
             <div class="header-cue" aria-hidden="true">
                 <span class="header-cue__caret"></span>
@@ -20,11 +22,14 @@
     </header>
 
     <aside class="lang-nav" aria-label="Language">
-        <p class="lang-nav__item is-active" data-lang="en">EN .</p>
-        <p class="lang-nav__item" data-lang="cn">CN .</p>
+        <div class="lang-nav__inner">
+            <p class="lang-nav__item is-active" data-lang="en">EN .</p>
+            <p class="lang-nav__item" data-lang="cn">CN .</p>
+        </div>
     </aside>
 
     <div class="page-viewport">
+      <div class="scale-frame">
         <div class="page-canvas">
             <form class="survey-form" action="#" method="post" novalidate>
                 <div class="survey-form__row">
@@ -370,6 +375,7 @@
                 </div>
             </form>
         </div>
+      </div>
     </div>
     <script src="../scrollbar-auto-hide.js"></script>
     <script src="survey.js"></script>

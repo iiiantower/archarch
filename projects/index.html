@@ -11,7 +11,9 @@
 <body>
     <header class="site-header">
         <div class="site-header__inner">
-            <a class="logo" href="../" aria-label="arch arch home">arch arch</a>
+            <a class="logo" href="../" aria-label="arch arch home">
+                <img src="../assets/logo.png" alt="arch arch" width="126" height="31">
+            </a>
 
             <nav class="corner-nav" data-active="y" aria-label="Page sections">
                 <span class="corner-nav__frame" aria-hidden="true"></span>
@@ -23,12 +25,15 @@
     </header>
 
     <aside class="sidebar" aria-label="Practice">
-        <p class="sidebar__item" data-section="practical">Practical</p>
-        <p class="sidebar__item is-active" data-section="practice">Practice</p>
-        <p class="sidebar__item sidebar__han" data-section="gong-cai">拱 材</p>
+        <div class="sidebar__inner">
+            <p class="sidebar__item" data-section="practical">Practical</p>
+            <p class="sidebar__item is-active" data-section="practice">Practice</p>
+            <p class="sidebar__item sidebar__han" data-section="gong-cai">拱 材</p>
+        </div>
     </aside>
 
     <div class="page-viewport">
+      <div class="scale-frame">
         <div class="page-canvas">
             <div class="projects-flow" data-section="practice">
                 <article class="project" id="oakwood-residence" aria-label="Oakwood Resiclence">
@@ -98,6 +103,7 @@
                 </article>
             </div>
         </div>
+      </div>
     </div>
     <script src="../scrollbar-auto-hide.js"></script>
     <script src="projects.js"></script>

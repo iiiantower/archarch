@@ -22,6 +22,8 @@
     --nav-start: 455px;
     /* 0 on classic scrollbars; set by page-zoom.js for overlay */
     --scrollbar-gutter: 0px;
+    /* Browser-width / 1440 — set by page-zoom.js */
+    --page-scale: 1;
 }
 
 * {
@@ -39,6 +41,8 @@ body {
 /* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
    (from page-zoom.js) forces the same 8px strip. Thumb only while scrolling. */
 html {
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
@@ -66,15 +70,39 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.35);
 }
 
+html.has-overlay-gutter::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--overlay-gutter-width, 8px);
+    background: var(--paper);
+    pointer-events: none;
+    z-index: 10001;
+}
+
 .page-viewport {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
+/* Un-transformed sizer; height is set in JS to the *rendered* canvas
+   height so the document has exactly one, correctly sized scrollbar. */
+.scale-frame {
+    position: relative;
+    width: 100%;
+}
+
 .page-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: var(--canvas-width);
-    margin: 0 auto;
+    margin: 0;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
 }
 
 .site-header {
@@ -89,8 +117,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .site-header__inner {
     position: relative;
-    width: 100%;
+    width: var(--canvas-width);
     height: 67px;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
 }
 
 .logo,
@@ -104,13 +134,17 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     left: 24px;
     display: block;
     margin: 0;
-    font-family: var(--font-serif);
-    font-size: 22.5px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--ink);
+    width: 126px;
+    height: 31px;
+    line-height: 0;
     text-decoration: none;
-    white-space: nowrap;
+}
+
+.logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .corner-nav {
@@ -184,9 +218,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .sidebar {
     position: fixed;
-    top: var(--rail-top);
-    left: calc(50% - var(--canvas-width) / 2 + var(--rail-left));
+    top: 0;
+    left: 0;
     z-index: 90;
+    pointer-events: none;
+}
+
+.sidebar__inner {
+    position: absolute;
+    top: var(--rail-top);
+    left: var(--rail-left);
     width: var(--sidebar-width);
     margin: 0;
     background: transparent;
@@ -194,6 +235,9 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     font-size: 22px;
     font-weight: 500;
     line-height: 40px;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
+    pointer-events: auto;
 }
 
 .sidebar p {
@@ -268,10 +312,19 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     font-weight: 500;
 }
 
-.project__nav-sticky.is-fixed {
+/* JS clones .project__nav-sticky into this real (un-transformed) overlay
+   when it should stick — .page-canvas is transformed, so a `position:
+   fixed` element nested inside it would stay pinned to the canvas, not
+   the viewport. */
+.project__nav-sticky--overlay {
     position: fixed;
-    top: var(--rail-top);
+    top: 0;
+    left: 0;
     z-index: 80;
+    margin: 0;
+    display: none;
+    transform-origin: top left;
+    pointer-events: none;
 }
 
 .project__title {
@@ -425,12 +478,3 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     height: 422px;
 }
 
-@media (max-width: 1440px) {
-    .sidebar {
-        left: var(--rail-left);
-    }
-
-    .page-viewport {
-        overflow-x: auto;
-    }
-}

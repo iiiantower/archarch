@@ -28,6 +28,8 @@
     --field-label-to-box-gap: 14px;
     /* 0 on classic scrollbars; set by page-zoom.js for overlay */
     --scrollbar-gutter: 0px;
+    /* Browser-width / 1440 — set by page-zoom.js. Forced to 1 on mobile. */
+    --page-scale: 1;
 }
 
 * {
@@ -72,17 +74,50 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.35);
 }
 
+/* Desktop survey uses page zoom / iOS viewport scale; keep text from inflating.
+   Mobile survey (≤860 via screen size in page-zoom.js) is excluded. */
+@media (min-width: 861px) {
+    html {
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
+    }
+
+    html.has-overlay-gutter::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: var(--overlay-gutter-width, 8px);
+        background: var(--paper);
+        pointer-events: none;
+        z-index: 10001;
+    }
+}
+
 .page-viewport {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
-.page-canvas {
+/* Un-transformed sizer; height is set in JS to the *rendered* canvas
+   height so the document has exactly one, correctly sized scrollbar.
+   Mobile (≤860px) doesn't scale, so this collapses back to auto height. */
+.scale-frame {
     position: relative;
+    width: 100%;
+}
+
+.page-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: var(--canvas-width);
     min-height: var(--canvas-height);
-    margin: 0 auto;
+    margin: 0;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
     /* First question's first text line bottom aligns with EN line bottom. */
     padding:
         calc(
@@ -106,9 +141,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .site-header__inner {
     position: relative;
     width: var(--canvas-width);
-    max-width: 100%;
     height: 67px;
-    margin: 0 auto;
+    margin: 0;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
 }
 
 .logo,
@@ -122,13 +158,17 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     left: 24px;
     display: block;
     margin: 0;
-    font-family: var(--font-serif);
-    font-size: 22.5px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--ink);
+    width: 126px;
+    height: 31px;
+    line-height: 0;
     text-decoration: none;
-    white-space: nowrap;
+}
+
+.logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .header-cue {
@@ -159,14 +199,24 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .lang-nav {
     position: fixed;
-    top: var(--rail-top);
-    left: max(var(--rail-left), calc(50% - var(--canvas-width) / 2 + var(--rail-left)));
+    top: 0;
+    left: 0;
     z-index: 90;
+    pointer-events: none;
+}
+
+.lang-nav__inner {
+    position: absolute;
+    top: var(--rail-top);
+    left: var(--rail-left);
     margin: 0;
     font-family: var(--font-serif);
     font-size: 22px;
     font-weight: 500;
     line-height: var(--lang-line-height);
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
+    pointer-events: auto;
 }
 
 .lang-nav__item {
@@ -548,9 +598,13 @@ textarea.field__box--editable:focus {
     }
 
     .page-canvas {
+        position: static;
+        top: auto;
+        left: auto;
         width: 100%;
         min-height: 0;
         padding: 0 52px 100px;
+        transform: none;
     }
 
     /* Logo + cue scroll with the page; keep Figma spacing to EN/CN. */
@@ -565,6 +619,7 @@ textarea.field__box--editable:focus {
         width: 100%;
         height: 61px;
         margin: 0;
+        transform: none;
     }
 
     .logo {
@@ -582,11 +637,19 @@ textarea.field__box--editable:focus {
         top: auto;
         left: auto;
         z-index: auto;
+        pointer-events: auto;
+    }
+
+    .lang-nav__inner {
+        position: static;
+        top: auto;
+        left: auto;
         width: fit-content;
         /* Header ends at 61px; EN at 100px → 39px gap. Then 40px to first question. */
         margin: 39px 0 40px 52px;
         font-size: 15px;
         line-height: 28px;
+        transform: none;
     }
 
     .lang-nav__item::after {

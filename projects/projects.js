@@ -14,6 +14,24 @@ function visualScale() {
     return logoProbe.getBoundingClientRect().height / logoProbe.offsetHeight;
 }
 
+/* .page-canvas is `transform`'d, which makes it the containing block for
+   any `position: fixed` descendant — so the sticky nav can't just fix
+   itself in place there. Instead, keep the original always in normal
+   flow and clone it once into a real (un-transformed) fixed overlay that
+   mirrors its position/scale via JS, toggling visibility between the two. */
+function getStickyOverlay(sticky) {
+    if (sticky._overlay) {
+        return sticky._overlay;
+    }
+
+    const overlay = sticky.cloneNode(true);
+    overlay.classList.add("project__nav-sticky--overlay");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.appendChild(overlay);
+    sticky._overlay = overlay;
+    return overlay;
+}
+
 function updateProjectNav() {
     const z = visualScale();
     const railTop = RAIL_TOP * z;
@@ -21,29 +39,27 @@ function updateProjectNav() {
     document.querySelectorAll(".project").forEach((project) => {
         const nav = project.querySelector(".project__nav");
         const sticky = project.querySelector(".project__nav-sticky");
-        const placeholder = project.querySelector(".project__nav-placeholder");
         const content = project.querySelector(".project__content");
 
-        if (!nav || !sticky || !placeholder || !content) {
+        if (!nav || !sticky || !content) {
             return;
         }
 
+        const overlay = getStickyOverlay(sticky);
         const projectRect = project.getBoundingClientRect();
         const contentRect = content.getBoundingClientRect();
         const shouldFix =
             projectRect.top < railTop && contentRect.bottom > railTop;
 
         if (shouldFix) {
-            placeholder.style.height = `${sticky.offsetHeight}px`;
-            sticky.classList.add("is-fixed");
-            sticky.style.width = `${nav.offsetWidth}px`;
-            // style.left is layout px; gBCR is rendered px.
-            sticky.style.left = `${nav.getBoundingClientRect().left / z}px`;
+            sticky.style.visibility = "hidden";
+            overlay.style.display = "block";
+            overlay.style.top = `${railTop}px`;
+            overlay.style.left = `${nav.getBoundingClientRect().left}px`;
+            overlay.style.transform = `scale(${z})`;
         } else {
-            placeholder.style.height = "0";
-            sticky.classList.remove("is-fixed");
-            sticky.style.width = "";
-            sticky.style.left = "";
+            sticky.style.visibility = "";
+            overlay.style.display = "none";
         }
     });
 }

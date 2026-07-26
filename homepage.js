@@ -5,6 +5,8 @@ const FRAME_BY_KEY = { n: FRAME_N, x: FRAME_X, y: FRAME_Y };
 /* Viewport offset when jumping to #manifesto (matches scroll-margin-top). */
 const MANIFESTO_TOP = 100;
 const SCROLL_MS = 500;
+/* Positive = logo scrolls out earlier; negative = later. */
+const LOGO_SCROLL_OFFSET = -5;
 
 const nav = document.querySelector(".corner-nav");
 const logo = document.querySelector(".logo");
@@ -95,9 +97,9 @@ function updateLogoFromGalleryScroll() {
         measureLogoBaselineInset();
     }
 
-    // Start when gallery bottom meets the logo baseline; then move 1:1.
+    // Start when gallery bottom meets the logo bottom (+ offset); then move 1:1.
     const z = visualScale();
-    const logoBaseline = (logo.offsetTop + logoBaselineInset) * z;
+    const logoBaseline = (logo.offsetTop + logoBaselineInset + LOGO_SCROLL_OFFSET) * z;
     const past = logoBaseline - gallery.getBoundingClientRect().bottom;
     const offsetY = past > 0 ? -past / z : 0;
 

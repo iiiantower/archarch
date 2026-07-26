@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="../survey.css">
     <script src="../../page-zoom.js" data-zoom-min-width="860"></script>
     <style>
-        .page-canvas {
-            position: relative;
-        }
-
         .thanks {
             position: absolute;
             top: 166px;
@@ -34,11 +30,14 @@
 <body>
     <header class="site-header">
         <div class="site-header__inner">
-            <a class="logo" href="../../" aria-label="arch arch home">arch arch</a>
+            <a class="logo" href="../../" aria-label="arch arch home">
+                <img src="../../assets/logo.png" alt="arch arch" width="126" height="31">
+            </a>
         </div>
     </header>
 
     <div class="page-viewport">
+      <div class="scale-frame">
         <div class="page-canvas">
             <section class="thanks" aria-label="Submission confirmation">
                 <p class="thanks__copy">
@@ -46,6 +45,7 @@
                 </p>
             </section>
         </div>
+      </div>
     </div>
 </body>
 </html>

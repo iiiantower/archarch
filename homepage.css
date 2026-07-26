@@ -16,6 +16,8 @@
     --canvas-height: 2643px;
     /* 0 on classic scrollbars; 8px on overlay — set by page-zoom.js */
     --scrollbar-gutter: 0px;
+    /* Browser-width / 1440 — set by page-zoom.js */
+    --page-scale: 1;
 }
 
 * {
@@ -33,6 +35,9 @@ body {
 /* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
    (from page-zoom.js) forces the same 8px strip. Thumb only while scrolling. */
 html {
+    /* none > 100%: stops iOS from inflating text when CSS zoom is used. */
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
     scrollbar-gutter: stable;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
@@ -60,10 +65,30 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.35);
 }
 
+/* Permanent paper strip on overlay-scrollbar engines (iOS/macOS). */
+html.has-overlay-gutter::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--overlay-gutter-width, 8px);
+    background: var(--paper);
+    pointer-events: none;
+    z-index: 10001;
+}
+
 .page-viewport {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: auto;
+}
+
+/* Un-transformed sizer; height is set in JS to the *rendered* canvas
+   height so the document has exactly one, correctly sized scrollbar. */
+.scale-frame {
+    position: relative;
+    width: 100%;
 }
 
 .site-header {
@@ -78,8 +103,10 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 
 .site-header__inner {
     position: relative;
-    width: 100%;
+    width: var(--canvas-width);
     height: 67px;
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
 }
 
 .logo,
@@ -93,22 +120,18 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     left: 24px;
     display: block;
     margin: 0;
-    font-family: var(--font-serif);
-    font-size: 22.5px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--ink);
+    width: 126px;
+    height: 31px;
+    line-height: 0;
     text-decoration: none;
-    white-space: nowrap;
     will-change: transform;
 }
 
-.logo__baseline-pin {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: baseline;
-    position: relative;
+.logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .corner-nav {
@@ -182,12 +205,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .homepage {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: var(--canvas-width);
     min-height: var(--canvas-height);
-    margin: 0 auto;
+    margin: 0;
     padding-bottom: 80px;
     background: var(--paper);
+    transform: scale(var(--page-scale));
+    transform-origin: top left;
 }
 
 .gallery {
@@ -514,8 +541,3 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     }
 }
 
-@media (max-width: 1440px) {
-    .page-viewport {
-        overflow-x: auto;
-    }
-}
