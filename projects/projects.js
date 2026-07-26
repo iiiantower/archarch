@@ -2,7 +2,22 @@ const RAIL_TOP = 166;
 const FRAME_BY_KEY = { n: 6.5, x: 45, y: 83.5 };
 const FRAME_Y = FRAME_BY_KEY.y;
 
+const logoProbe = document.querySelector(".logo");
+
+function visualScale() {
+    // Ratio of rendered (gBCR) px to layout (offset*) px. Under page zoom
+    // this is the zoom factor; 1 when unzoomed.
+    if (!logoProbe || !logoProbe.offsetHeight) {
+        return 1;
+    }
+
+    return logoProbe.getBoundingClientRect().height / logoProbe.offsetHeight;
+}
+
 function updateProjectNav() {
+    const z = visualScale();
+    const railTop = RAIL_TOP * z;
+
     document.querySelectorAll(".project").forEach((project) => {
         const nav = project.querySelector(".project__nav");
         const sticky = project.querySelector(".project__nav-sticky");
@@ -16,13 +31,14 @@ function updateProjectNav() {
         const projectRect = project.getBoundingClientRect();
         const contentRect = content.getBoundingClientRect();
         const shouldFix =
-            projectRect.top < RAIL_TOP && contentRect.bottom > RAIL_TOP;
+            projectRect.top < railTop && contentRect.bottom > railTop;
 
         if (shouldFix) {
             placeholder.style.height = `${sticky.offsetHeight}px`;
             sticky.classList.add("is-fixed");
             sticky.style.width = `${nav.offsetWidth}px`;
-            sticky.style.left = `${nav.getBoundingClientRect().left}px`;
+            // style.left is layout px; gBCR is rendered px.
+            sticky.style.left = `${nav.getBoundingClientRect().left / z}px`;
         } else {
             placeholder.style.height = "0";
             sticky.classList.remove("is-fixed");
@@ -43,7 +59,9 @@ function scrollToProjectTarget() {
     }
 
     const top =
-        target.getBoundingClientRect().top + window.scrollY - RAIL_TOP;
+        target.getBoundingClientRect().top +
+        window.scrollY -
+        RAIL_TOP * visualScale();
 
     window.scrollTo({
         top: Math.max(0, top),

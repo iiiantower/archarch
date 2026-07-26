@@ -20,6 +20,8 @@
     --content-width: 644px;
     --content-gap: 8px;
     --nav-start: 455px;
+    /* 0 on classic scrollbars; set by page-zoom.js for overlay */
+    --scrollbar-gutter: 0px;
 }
 
 * {
@@ -34,8 +36,8 @@ body {
     color: var(--ink);
 }
 
-/* Reserve scrollbar gutter always so fixed header/nxy don't shift.
-   Thumb only appears while scrolling. */
+/* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
+   (from page-zoom.js) forces the same 8px strip. Thumb only while scrolling. */
 html {
     scrollbar-gutter: stable;
     scrollbar-width: thin;
@@ -79,7 +81,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    right: var(--scrollbar-gutter);
     z-index: 100;
     background: transparent;
     pointer-events: none;

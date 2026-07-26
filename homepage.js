@@ -19,6 +19,17 @@ function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
+function visualScale() {
+    // Ratio of rendered (gBCR) px to layout (offset*) px. Under page zoom
+    // this is the zoom factor; 1 when unzoomed. translateY doesn't affect
+    // height, so the logo is a safe probe.
+    if (!logo || !logo.offsetHeight) {
+        return 1;
+    }
+
+    return logo.getBoundingClientRect().height / logo.offsetHeight;
+}
+
 function easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
@@ -38,7 +49,11 @@ function getManifestoAnchorY() {
     }
 
     // "n" — pin manifesto top to MANIFESTO_TOP (includes the 230px gallery gap).
-    return manifesto.getBoundingClientRect().top + window.scrollY - MANIFESTO_TOP;
+    return (
+        manifesto.getBoundingClientRect().top +
+        window.scrollY -
+        MANIFESTO_TOP * visualScale()
+    );
 }
 
 function setFrameCenter(center, { animate = false } = {}) {
@@ -56,10 +71,12 @@ function updateLogoFromGalleryScroll() {
     }
 
     // Start when gallery bottom meets the logo bottom; then move 1:1 with gallery.
-    // Use offset box (ignores transform) so the threshold stays at the resting logo.
-    const logoBottom = logo.offsetTop + logo.offsetHeight;
+    // Offset box (layout px) ignores the transform, so the threshold stays at
+    // the resting logo; convert between layout and rendered px via the scale.
+    const z = visualScale();
+    const logoBottom = (logo.offsetTop + logo.offsetHeight) * z;
     const past = logoBottom - gallery.getBoundingClientRect().bottom;
-    const offsetY = past > 0 ? -past : 0;
+    const offsetY = past > 0 ? -past / z : 0;
 
     logo.style.transform = `translateY(${offsetY}px)`;
 }

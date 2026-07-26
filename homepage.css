@@ -14,6 +14,8 @@
     --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
     --canvas-height: 2643px;
+    /* 0 on classic scrollbars; 8px on overlay — set by page-zoom.js */
+    --scrollbar-gutter: 0px;
 }
 
 * {
@@ -28,8 +30,8 @@ body {
     color: var(--ink);
 }
 
-/* Reserve scrollbar gutter always so fixed header/nxy don't shift.
-   Thumb only appears while scrolling. */
+/* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
+   (from page-zoom.js) forces the same 8px strip. Thumb only while scrolling. */
 html {
     scrollbar-gutter: stable;
     scrollbar-width: thin;
@@ -68,7 +70,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    right: var(--scrollbar-gutter);
     z-index: 100;
     background: transparent;
     pointer-events: none;
@@ -297,8 +299,9 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 .manifesto {
     position: relative;
     width: 644px;
-    /* 230px below gallery; 79px from the browser/viewport left edge. */
-    margin: 200px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    /* 230px below gallery; 79px from the left edge. Page zoom keeps the
+       canvas exactly viewport-wide, so no 100vw compensation is needed. */
+    margin: 200px 0 0 79px;
     scroll-margin-top: 100px;
     font-family: var(--font-serif);
     font-size: 20px;
@@ -352,20 +355,29 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     line-height: 0;
 }
 
-.layer-1 {
-    position: absolute;
-    top: 1893px;
-    left: 889px;
-    width: 361px;
-    height: 234px;
-    margin: 0;
-    pointer-events: none;
+.manifesto__sphere-row {
+    position: relative;
 }
 
-.layer-1 img {
+/* 0×0 inline pin sits on the alphabetic baseline; image top = that baseline. */
+.manifesto__baseline-pin {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: baseline;
+    position: relative;
+    overflow: visible;
+}
+
+.layer-1 {
+    position: absolute;
+    top: 0;
+    left: calc(889px - 79px);
+    width: 361px;
+    height: 234px;
     display: block;
-    width: 100%;
-    height: 100%;
+    margin: 0;
+    pointer-events: none;
 }
 
 .site-footer {
@@ -376,7 +388,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     column-gap: 56px;
     row-gap: 51px;
     width: 644px;
-    margin: 145px 0 0 calc(79px - max(0px, (100vw - var(--canvas-width)) / 2));
+    margin: 145px 0 0 79px;
     pointer-events: none;
 }
 
