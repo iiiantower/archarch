@@ -200,21 +200,23 @@ function applyHashTarget(smooth = false) {
     return false;
 }
 
+function frameCenterFromPointer(event) {
+    const rect = nav.getBoundingClientRect();
+    const scaleX = rect.width / nav.offsetWidth || 1;
+    const localX = (event.clientX - rect.left) / scaleX;
+
+    return clamp(localX, FRAME_N, FRAME_Y);
+}
+
 function bindCornerNavHover() {
     if (!nav) {
         return;
     }
 
-    nav.querySelectorAll(".corner-nav__item").forEach((item) => {
-        item.addEventListener("mouseenter", () => {
-            window.clearTimeout(hoverLeaveTimer);
-            hoverKey = item.dataset.nav;
-            const center = FRAME_BY_KEY[hoverKey];
-
-            if (typeof center === "number") {
-                setFrameCenter(center, { animate: true });
-            }
-        });
+    nav.addEventListener("mousemove", (event) => {
+        window.clearTimeout(hoverLeaveTimer);
+        hoverKey = "pointer";
+        setFrameCenter(frameCenterFromPointer(event), { animate: false });
     });
 
     nav.addEventListener("mouseleave", () => {

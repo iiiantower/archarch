@@ -104,20 +104,24 @@ function setCornerFrameCenter(center, { animate = false } = {}) {
     cornerNav.style.setProperty("--corner-nav-frame-center", `${center}px`);
 }
 
+function cornerFrameCenterFromPointer(event) {
+    const rect = cornerNav.getBoundingClientRect();
+    const scaleX = rect.width / cornerNav.offsetWidth || 1;
+    const localX = (event.clientX - rect.left) / scaleX;
+
+    return Math.min(FRAME_BY_KEY.y, Math.max(FRAME_BY_KEY.n, localX));
+}
+
 function bindCornerNavHover() {
     if (!cornerNav) {
         return;
     }
 
-    cornerNav.querySelectorAll(".corner-nav__item").forEach((item) => {
-        item.addEventListener("mouseenter", () => {
-            window.clearTimeout(cornerHoverLeaveTimer);
-            cornerHoverKey = item.dataset.nav;
-            const center = FRAME_BY_KEY[cornerHoverKey];
-
-            if (typeof center === "number") {
-                setCornerFrameCenter(center, { animate: true });
-            }
+    cornerNav.addEventListener("mousemove", (event) => {
+        window.clearTimeout(cornerHoverLeaveTimer);
+        cornerHoverKey = "pointer";
+        setCornerFrameCenter(cornerFrameCenterFromPointer(event), {
+            animate: false,
         });
     });
 
