@@ -30,8 +30,15 @@
     <aside class="sidebar" aria-label="Practice">
         <div class="sidebar__inner">
             <p class="sidebar__item" data-section="practical">Practical</p>
-            <p class="sidebar__item is-active" data-section="practice">Practice</p>
-            <p class="sidebar__item sidebar__han" data-section="gong-cai">拱 材</p>
+            <p class="sidebar__item is-active" data-section="practice" role="button" tabindex="0" aria-expanded="false" aria-controls="practice-projects">Practice</p>
+            <nav class="sidebar__projects" id="practice-projects" aria-label="Practice projects">
+                <button class="sidebar__project" type="button" data-project-target="oakwood-residence">Oakwood Resiclence</button>
+                <button class="sidebar__project" type="button">Font Daily</button>
+                <button class="sidebar__project" type="button">Siro Choir</button>
+            </nav>
+            <p class="sidebar__item sidebar__han" data-section="gong-cai">
+                <img src="../assets/拱材.svg" alt="拱材" width="37" height="16">
+            </p>
         </div>
     </aside>
 
@@ -44,8 +51,9 @@
                         <div class="project__nav-placeholder" aria-hidden="true"></div>
                         <div class="project__nav-sticky">
                             <p class="project__title">Oakwood Resiclence</p>
-                            <p class="project__meta">Conceptual brand design,</p>
-                            <p class="project__meta">signage system, year 2025</p>
+                            <span class="project__rule" aria-hidden="true"></span>
+                            <p class="project__label">Hotel Identity Design</p>
+                            <p class="project__desc">Inspired by architecture and its surrounding environment, this self-initiated project reimagines the identity of an upscale hotel through a cohesive system of visual identity, typography, hotel collateral, and signage design.</p>
                         </div>
                     </div>
 

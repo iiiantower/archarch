@@ -31,6 +31,10 @@ body {
     padding: 0;
     background: var(--paper);
     color: var(--ink);
+    /* Grayscale AA, so type reads at the weight it does in the Figma comp
+       instead of the heavier macOS subpixel rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
@@ -313,11 +317,19 @@ html.has-overlay-gutter::after {
 
 .tile--sirio .tile__icon {
     position: absolute;
-    top: 52px;
-    left: 44px;
-    width: 22px;
-    height: 51px;
+    /* Figma: 28x59 at 51,59 inside the 300x256 tile, scaled by 253/300. */
+    top: 49.8px;
+    left: 43px;
+    width: 23.6px;
+    height: 49.8px;
     object-fit: contain;
+    transition: opacity 0.25s ease;
+}
+
+/* The hover art carries its own logo, so drop the white one with the photo. */
+.tile--sirio:hover .tile__icon,
+.tile--sirio:focus-within .tile__icon {
+    opacity: 0;
 }
 
 .tile--2 {

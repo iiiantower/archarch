@@ -14,13 +14,15 @@
     --border-soft: #949494;
     --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
-    --rail-top: 166px;
+    /* Matches the fei hua ling tile top on the homepage. */
+    --rail-top: 140px;
     --rail-left: 80px;
     --sidebar-width: 193px;
-    --nav-width: 257px;
+    /* Figma Desktop-2: nav column 311 → 712, content column 720 → 1364. */
+    --nav-width: 401px;
     --content-width: 644px;
     --content-gap: 8px;
-    --nav-start: 455px;
+    --nav-start: 311px;
     /* 0 on classic scrollbars; set by page-zoom.js for overlay */
     --scrollbar-gutter: 0px;
     /* Browser-width / 1440 — set by page-zoom.js */
@@ -37,6 +39,10 @@ body {
     padding: 0;
     background: var(--paper);
     color: var(--ink);
+    /* Grayscale AA, so type reads at the weight it does in the Figma comp
+       instead of the heavier macOS subpixel rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
@@ -225,17 +231,19 @@ html.has-overlay-gutter::after {
     pointer-events: none;
 }
 
+/* The offset scales too: `transform` only shrinks the box, so an unscaled
+   top/left would drift away from the canvas content at other widths. */
 .sidebar__inner {
     position: absolute;
-    top: var(--rail-top);
-    left: var(--rail-left);
+    top: calc(var(--rail-top) * var(--page-scale));
+    left: calc(var(--rail-left) * var(--page-scale));
     width: var(--sidebar-width);
     margin: 0;
     background: transparent;
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
-    line-height: 40px;
+    line-height: 43px;
     transform: scale(var(--page-scale));
     transform-origin: top left;
     pointer-events: auto;
@@ -277,9 +285,67 @@ html.has-overlay-gutter::after {
     transform: scaleX(1);
 }
 
+/* Collapsed by default; height comes from JS so it can transition. Hidden
+   visibility also keeps the buttons out of the tab order while closed. */
+.sidebar__projects {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: height 0.5s ease, visibility 0s linear 0.5s;
+}
+
+.sidebar__projects.is-open {
+    visibility: visible;
+    transition: height 0.5s ease, visibility 0s;
+}
+
+.sidebar__project {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    line-height: 28px;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: 0;
+    transition: color 0.2s ease, opacity 0.28s ease;
+}
+
+/* Staggered so the names arrive as the rail opens up, one after another. */
+.sidebar__projects.is-open .sidebar__project {
+    opacity: 1;
+}
+
+.sidebar__projects.is-open .sidebar__project:nth-child(2) {
+    transition-delay: 0s, 0.12s;
+}
+
+.sidebar__projects.is-open .sidebar__project:nth-child(3) {
+    transition-delay: 0s, 0.24s;
+}
+
+.sidebar__project:hover,
+.sidebar__project:focus-visible {
+    color: var(--ink);
+}
+
+/* Same 45px row and glyph band the 20px 拱 材 text occupied, so the rail
+   spacing and the hover underline stay put. */
 .sidebar__han {
-    font-size: 20px;
-    line-height: 45px;
+    display: flex;
+    align-items: center;
+    height: 45px;
+}
+
+.sidebar__han img {
+    display: block;
+    width: 37px; /*46.25px;*/
+    height: 16px; /*20px;*/
 }
 
 .projects-flow {
@@ -308,8 +374,12 @@ html.has-overlay-gutter::after {
     height: 0;
 }
 
+/* Absolute children mirror the Figma Desktop-2 offsets, measured from the
+   nav column origin. */
 .project__nav-sticky {
+    position: relative;
     width: var(--nav-width);
+    height: 116px;
     font-family: var(--font-serif);
     font-weight: 500;
 }
@@ -330,16 +400,46 @@ html.has-overlay-gutter::after {
 }
 
 .project__title {
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 0;
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 24px;
+    white-space: nowrap;
 }
 
-.project__meta {
+.project__rule {
+    position: absolute;
+    /* Centre line of the 24px title and 22px label boxes on either side. */
+    top: 14px;
+    left: 189px;
+    width: 11px;
+    height: 1px;
+    background: var(--muted);
+}
+
+.project__label {
+    position: absolute;
+    top: 2px;
+    left: 212px;
+    width: 158px;
     margin: 0;
     color: var(--muted);
     font-size: 16px;
-    line-height: 30px;
+    line-height: 22px;
+    white-space: nowrap;
+}
+
+.project__desc {
+    position: absolute;
+    top: 47px;
+    left: 2px;
+    width: 368px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 17.25px;
 }
 
 .project__content {
@@ -386,7 +486,7 @@ html.has-overlay-gutter::after {
 }
 
 .copy p {
-    margin: 0 0 20px;
+    margin: 0 0 0;
 }
 
 .copy p:last-child {

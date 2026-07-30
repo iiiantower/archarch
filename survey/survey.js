@@ -450,3 +450,108 @@
         }
     });
 })();
+
+/* Corner nav: at rest only the frame shows. Hovering types the letters in
+   one at a time, and the row re-centres on the frame after each one, so
+   earlier letters get pushed outwards. Leaving clears the whole row.
+
+   Each re-centring moves the row by the same distance, so running the
+   slides back to back at exactly STEP_MS with linear easing makes them
+   read as one constant-speed glide rather than three eased hops. */
+(function () {
+    const nav = document.querySelector(".corner-nav");
+    const items = nav ? [...nav.querySelectorAll(".corner-nav__item")] : [];
+
+    if (!items.length) {
+        return;
+    }
+
+    const STEP_MS = 190;
+    let timer = 0;
+    let shown = 0;
+
+    nav.style.setProperty("--corner-nav-step", `${STEP_MS}ms`);
+
+    /* Offset that centres the first `count` letters on the frame. Read from
+       layout rather than hard-coded, so it survives font or copy changes. */
+    function shiftFor(count) {
+        if (count < 1) {
+            return 0;
+        }
+
+        const styles = getComputedStyle(nav);
+        const frameCentre =
+            parseFloat(styles.getPropertyValue("--corner-nav-frame-center")) ||
+            nav.offsetWidth / 2;
+        const last = items[count - 1];
+        const rowCentre =
+            (items[0].offsetLeft + last.offsetLeft + last.offsetWidth) / 2;
+
+        return frameCentre - rowCentre;
+    }
+
+    function setShown(count) {
+        if (count === shown) {
+            return;
+        }
+
+        const arriving = count > shown ? items[count - 1] : null;
+
+        arriving?.classList.add("is-snapping");
+        nav.style.setProperty("--corner-nav-shift", `${shiftFor(count)}px`);
+
+        if (arriving) {
+            // Commit the parked offset before transitions come back on.
+            void nav.offsetWidth;
+            arriving.classList.remove("is-snapping");
+        }
+
+        items.forEach((item, index) => {
+            item.classList.toggle("is-shown", index < count);
+        });
+
+        shown = count;
+    }
+
+    function type() {
+        window.clearInterval(timer);
+
+        const tick = () => {
+            setShown(shown + 1);
+
+            if (shown === items.length) {
+                window.clearInterval(timer);
+            }
+        };
+
+        tick();
+
+        if (shown !== items.length) {
+            timer = window.setInterval(tick, STEP_MS);
+        }
+    }
+
+    function clear() {
+        window.clearInterval(timer);
+
+        if (!shown) {
+            return;
+        }
+
+        nav.classList.add("is-instant");
+        items.forEach((item) => item.classList.remove("is-shown"));
+        nav.style.setProperty("--corner-nav-shift", "0px");
+        void nav.offsetWidth;
+        nav.classList.remove("is-instant");
+        shown = 0;
+    }
+
+    nav.addEventListener("mouseenter", type);
+    nav.addEventListener("mouseleave", clear);
+    nav.addEventListener("focusin", type);
+    nav.addEventListener("focusout", (event) => {
+        if (!nav.contains(event.relatedTarget)) {
+            clear();
+        }
+    });
+})();

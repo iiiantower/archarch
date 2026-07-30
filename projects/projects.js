@@ -1,4 +1,4 @@
-const RAIL_TOP = 166;
+const RAIL_TOP = 140;
 const FRAME_BY_KEY = { n: 6.5, x: 45, y: 83.5 };
 const FRAME_Y = FRAME_BY_KEY.y;
 
@@ -64,7 +64,7 @@ function updateProjectNav() {
     });
 }
 
-function scrollToProjectTarget() {
+function scrollToProjectTarget({ smooth = false } = {}) {
     const hash = window.location.hash;
     const target = hash
         ? document.querySelector(hash)
@@ -81,7 +81,7 @@ function scrollToProjectTarget() {
 
     window.scrollTo({
         top: Math.max(0, top),
-        behavior: "auto",
+        behavior: smooth ? "smooth" : "auto",
     });
 }
 
@@ -89,6 +89,62 @@ function handlePageReady() {
     scrollToProjectTarget();
     updateProjectNav();
 }
+
+const practiceToggle = document.querySelector('[data-section="practice"]');
+const practiceProjects = document.querySelector(".sidebar__projects");
+
+/* Height is set from scrollHeight rather than a class, so the list can
+   transition open (a `height: auto` target wouldn't animate) and still
+   work if projects are added later. */
+function setPracticeProjectsOpen(open) {
+    if (!practiceToggle || !practiceProjects) {
+        return;
+    }
+
+    practiceToggle.setAttribute("aria-expanded", String(open));
+    practiceProjects.classList.toggle("is-open", open);
+    practiceProjects.style.height = open
+        ? `${practiceProjects.scrollHeight}px`
+        : "0px";
+}
+
+function togglePracticeProjects(event) {
+    event.stopPropagation();
+    setPracticeProjectsOpen(practiceToggle?.getAttribute("aria-expanded") !== "true");
+}
+
+practiceToggle?.addEventListener("click", togglePracticeProjects);
+practiceToggle?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        togglePracticeProjects(event);
+    }
+});
+
+practiceProjects?.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    const projectButton = event.target.closest(".sidebar__project");
+    if (!projectButton) {
+        return;
+    }
+
+    const targetId = projectButton.dataset.projectTarget;
+    if (targetId && document.getElementById(targetId)) {
+        history.replaceState(null, "", `#${targetId}`);
+        scrollToProjectTarget({ smooth: true });
+        updateProjectNav();
+    }
+
+    setPracticeProjectsOpen(false);
+});
+
+document.addEventListener("click", () => setPracticeProjectsOpen(false));
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        setPracticeProjectsOpen(false);
+    }
+});
 
 const cornerNav = document.querySelector(".corner-nav");
 let cornerHoverKey = null;
@@ -104,24 +160,20 @@ function setCornerFrameCenter(center, { animate = false } = {}) {
     cornerNav.style.setProperty("--corner-nav-frame-center", `${center}px`);
 }
 
-function cornerFrameCenterFromPointer(event) {
-    const rect = cornerNav.getBoundingClientRect();
-    const scaleX = rect.width / cornerNav.offsetWidth || 1;
-    const localX = (event.clientX - rect.left) / scaleX;
-
-    return Math.min(FRAME_BY_KEY.y, Math.max(FRAME_BY_KEY.n, localX));
-}
-
 function bindCornerNavHover() {
     if (!cornerNav) {
         return;
     }
 
-    cornerNav.addEventListener("mousemove", (event) => {
-        window.clearTimeout(cornerHoverLeaveTimer);
-        cornerHoverKey = "pointer";
-        setCornerFrameCenter(cornerFrameCenterFromPointer(event), {
-            animate: false,
+    cornerNav.querySelectorAll(".corner-nav__item").forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+            window.clearTimeout(cornerHoverLeaveTimer);
+            cornerHoverKey = item.dataset.nav;
+            const center = FRAME_BY_KEY[cornerHoverKey];
+
+            if (typeof center === "number") {
+                setCornerFrameCenter(center, { animate: true });
+            }
         });
     });
 
@@ -149,7 +201,7 @@ cornerNav?.querySelector('[data-nav="y"]')?.addEventListener("click", (event) =>
 
     event.preventDefault();
     history.replaceState(null, "", href);
-    scrollToProjectTarget();
+    scrollToProjectTarget({ smooth: true });
     updateProjectNav();
 });
 

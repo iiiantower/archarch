@@ -15,13 +15,19 @@
     --font-serif: "Hertz", "Songti SC", "STSong", serif;
     --canvas-width: 1440px;
     --canvas-height: 1500px;
-    --rail-top: 166px;
+    /* Matches the fei hua ling tile top on the homepage. */
+    --rail-top: 140px;
     --rail-left: 80px;
     --form-left: 651px;
     --form-col-width: 275px;
     --form-col-gap: 68px;
+    --lang-font-size: 20px;
     --lang-line-height: 40px;
+    --field-label-font-size: 16px;
     --field-label-line-height: 22px;
+    /* Hertz hhea metrics, in em — used to line up baselines across sizes. */
+    --font-ascent: 0.977;
+    --font-line-content: 1.24;
     --field-label-lines: 3;
     /* First question label has 2 text lines, bottom-aligned in the 3-line slot. */
     --first-question-text-lines: 2;
@@ -43,6 +49,10 @@ body {
     padding: 0;
     background: var(--paper);
     color: var(--ink);
+    /* Grayscale AA, so type reads at the weight it does in the Figma comp
+       instead of the heavier macOS subpixel rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Classic: scrollbar-gutter reserves track. Overlay: --scrollbar-gutter
@@ -119,11 +129,19 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     margin: 0;
     transform: scale(var(--page-scale));
     transform-origin: top left;
-    /* First question's first text line bottom aligns with EN line bottom. */
+    /* First question's first text line sits on the same baseline as EN.
+       Both terms are "baseline offset inside the line box", which differs
+       between the two because the sizes and line heights differ. */
     padding:
         calc(
-            var(--rail-top) + var(--lang-line-height)
-            - (var(--field-label-lines) - var(--first-question-text-lines) + 1)
+            var(--rail-top)
+            + (var(--lang-line-height)
+                - var(--font-line-content) * var(--lang-font-size)) / 2
+            + var(--font-ascent) * var(--lang-font-size)
+            - (var(--field-label-line-height)
+                - var(--font-line-content) * var(--field-label-font-size)) / 2
+            - var(--font-ascent) * var(--field-label-font-size)
+            - (var(--field-label-lines) - var(--first-question-text-lines))
                 * var(--field-label-line-height)
         )
         0 200px;
@@ -149,7 +167,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
 }
 
 .logo,
-.header-cue {
+.corner-nav {
     pointer-events: auto;
 }
 
@@ -176,30 +194,78 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     object-fit: contain;
 }
 
-.header-cue {
+/* Same geometry as the homepage nav, so the frame lands exactly where the
+   homepage "x" frame sits (28×42 at top 20 / right 39). Only the frame
+   shows at rest; the letters unfold out of it on hover. */
+.corner-nav {
+    --corner-nav-width: 90px;
+    --corner-nav-height: 30px;
+    --corner-nav-frame-width: 28px;
+    --corner-nav-frame-height: 42px;
+    --corner-nav-frame-center: 45px;
+
     position: absolute;
-    /* Match homepage nxy "x" frame: 28×42 at top 20 / right 39. */
-    top: 20px;
-    right: 39px;
-    display: inline-flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    width: 28px;
-    height: 42px;
-    padding: 2px 2px 2px 4px;
-    border: 1px solid var(--border-soft);
-    overflow: hidden;
+    top: 24px;
+    right: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: var(--corner-nav-width);
+    height: var(--corner-nav-height);
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 22.5px;
+    font-weight: 500;
+    line-height: 1;
 }
 
-.header-cue__caret {
-    flex-shrink: 0;
-    width: 15px;
-    height: 0;
+.corner-nav__frame {
+    position: absolute;
+    top: 50%;
+    left: var(--corner-nav-frame-center);
+    width: var(--corner-nav-frame-width);
+    height: var(--corner-nav-frame-height);
+    border: 1px solid var(--border-soft);
+    pointer-events: none;
+    transform: translate(-50%, calc(-50% + 2px));
+}
+
+/* The whole row slides as one; survey.js sets --corner-nav-shift so the
+   letters revealed so far stay centred on the frame, like centre-aligned
+   text growing around a caret. */
+.corner-nav__item {
+    position: relative;
+    z-index: 1;
+    display: block;
+    flex: 0 0 auto;
     margin: 0;
-    border-top: 1px solid var(--ink);
-    transform: rotate(90deg);
-    transform-origin: 0 0;
+    color: inherit;
+    font-family: var(--font-serif);
+    font-size: 22.5px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateX(var(--corner-nav-shift, 0px));
+    /* Linear, and exactly one step long, so consecutive slides join into a
+       single even glide instead of easing to a stop between letters. */
+    transition: opacity 0.12s linear,
+        transform var(--corner-nav-step, 190ms) linear;
+}
+
+.corner-nav__item.is-shown {
+    opacity: 1;
+}
+
+/* Parks an arriving letter at its new offset so it appears in place
+   instead of flying in from where the row used to be. */
+.corner-nav__item.is-snapping {
+    transition: none;
+}
+
+/* Leaving wipes the row out at once — no rewind. */
+.corner-nav.is-instant .corner-nav__item {
+    transition: none;
 }
 
 .lang-nav {
@@ -210,14 +276,16 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     pointer-events: none;
 }
 
+/* The offset scales too: `transform` only shrinks the box, so an unscaled
+   top/left would drift away from the canvas content at other widths. */
 .lang-nav__inner {
     position: absolute;
-    top: var(--rail-top);
-    left: var(--rail-left);
+    top: calc(var(--rail-top) * var(--page-scale));
+    left: calc(var(--rail-left) * var(--page-scale));
     width: max-content;
     margin: 0;
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: var(--lang-font-size);
     font-weight: 500;
     line-height: var(--lang-line-height);
     transform: scale(var(--page-scale));
@@ -327,7 +395,7 @@ html.is-scrolling::-webkit-scrollbar-thumb {
     margin: 0;
     overflow: hidden;
     font: inherit;
-    font-size: 16px;
+    font-size: var(--field-label-font-size);
     line-height: var(--field-label-line-height);
 }
 
@@ -577,7 +645,7 @@ textarea.field__box--editable:focus {
     border: 1px solid var(--border-soft);
     background: var(--paper);
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 1;
     color: var(--ink);
@@ -634,9 +702,22 @@ textarea.field__box--editable:focus {
         left: 9px;
     }
 
-    .header-cue {
+    /* No hover on touch: keep just the frame, shrunk to its own box. */
+    .corner-nav {
         top: 11px;
         right: 10px;
+        width: var(--corner-nav-frame-width);
+        height: var(--corner-nav-frame-height);
+    }
+
+    .corner-nav__frame {
+        top: 0;
+        left: 0;
+        transform: none;
+    }
+
+    .corner-nav__item {
+        display: none;
     }
 
     .lang-nav {
