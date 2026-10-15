@@ -281,7 +281,7 @@ html.has-overlay-gutter::after {
     top: 140px;
     left: 305px;
     width: 253px;
-    height: 370px;
+    height: 345.365px;
 }
 
 .tile--6 {
@@ -299,7 +299,7 @@ html.has-overlay-gutter::after {
 }
 
 .tile--sirio {
-    top: 615px;
+    top: calc(140px + 345.365px + 109px);
     left: 305px;
     width: 253px;
     height: 216px;

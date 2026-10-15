@@ -36,7 +36,7 @@ function updateProjectNav() {
     const z = visualScale();
     const railTop = RAIL_TOP * z;
 
-    document.querySelectorAll(".project").forEach((project) => {
+    document.querySelectorAll(".project:not([hidden])").forEach((project) => {
         const nav = project.querySelector(".project__nav");
         const sticky = project.querySelector(".project__nav-sticky");
         const content = project.querySelector(".project__content");
@@ -65,14 +65,31 @@ function updateProjectNav() {
 }
 
 function scrollToProjectTarget({ smooth = false } = {}) {
-    const hash = window.location.hash;
-    const target = hash
-        ? document.querySelector(hash)
-        : document.querySelector(".project");
+    const requested = document.getElementById(window.location.hash.slice(1));
+    const target = requested?.classList.contains("project")
+        ? requested
+        : document.getElementById("feihua-youling");
 
-    if (!target) {
-        return;
-    }
+    if (!target) return;
+
+    document.querySelectorAll(".project").forEach((project) => {
+        project.hidden = project !== target;
+        if (project.hidden) {
+            const sticky = project.querySelector(".project__nav-sticky");
+            if (sticky?._overlay) sticky._overlay.style.display = "none";
+        }
+    });
+    document.querySelector(".projects-flow").dataset.section = target.dataset.category;
+    document.querySelectorAll(".sidebar__item[data-section]").forEach((item) => {
+        item.classList.toggle("is-active", item.dataset.section === target.dataset.category);
+    });
+    document.querySelectorAll(".sidebar__project[data-project-target]").forEach((button) => {
+        if (button.dataset.projectTarget === target.id) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+    });
+
+    // Recalculate the page's scaled height after switching between projects.
+    window.dispatchEvent(new Event("resize"));
 
     const top =
         target.getBoundingClientRect().top +
@@ -90,60 +107,52 @@ function handlePageReady() {
     updateProjectNav();
 }
 
-const practiceToggle = document.querySelector('[data-section="practice"]');
-const practiceProjects = document.querySelector(".sidebar__projects");
+const categoryToggles = [...document.querySelectorAll(".sidebar__item[aria-controls]")];
 
-/* Height is set from scrollHeight rather than a class, so the list can
-   transition open (a `height: auto` target wouldn't animate) and still
-   work if projects are added later. */
-function setPracticeProjectsOpen(open) {
-    if (!practiceToggle || !practiceProjects) {
-        return;
-    }
-
-    practiceToggle.setAttribute("aria-expanded", String(open));
-    practiceProjects.classList.toggle("is-open", open);
-    practiceProjects.style.height = open
-        ? `${practiceProjects.scrollHeight}px`
-        : "0px";
+function setCategoryOpen(toggle, open) {
+    const list = document.getElementById(toggle.getAttribute("aria-controls"));
+    toggle.setAttribute("aria-expanded", String(open));
+    list.classList.toggle("is-open", open);
+    list.style.height = open ? `${list.scrollHeight}px` : "0px";
 }
 
-function togglePracticeProjects(event) {
-    event.stopPropagation();
-    setPracticeProjectsOpen(practiceToggle?.getAttribute("aria-expanded") !== "true");
+function closeCategories() {
+    categoryToggles.forEach((toggle) => setCategoryOpen(toggle, false));
 }
 
-practiceToggle?.addEventListener("click", togglePracticeProjects);
-practiceToggle?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        togglePracticeProjects(event);
+categoryToggles.forEach((toggle) => {
+    function toggleCategory(event) {
+        event.stopPropagation();
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        closeCategories();
+        setCategoryOpen(toggle, open);
     }
+    toggle.addEventListener("click", toggleCategory);
+    toggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleCategory(event);
+        }
+    });
 });
 
-practiceProjects?.addEventListener("click", (event) => {
-    event.stopPropagation();
-
-    const projectButton = event.target.closest(".sidebar__project");
-    if (!projectButton) {
-        return;
-    }
-
-    const targetId = projectButton.dataset.projectTarget;
-    if (targetId && document.getElementById(targetId)) {
-        history.replaceState(null, "", `#${targetId}`);
-        scrollToProjectTarget({ smooth: true });
-        updateProjectNav();
-    }
-
-    setPracticeProjectsOpen(false);
+document.querySelectorAll(".sidebar__projects").forEach((list) => {
+    list.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const button = event.target.closest(".sidebar__project");
+        const target = document.getElementById(button?.dataset.projectTarget);
+        if (target?.classList.contains("project")) {
+            history.replaceState(null, "", `#${target.id}`);
+            scrollToProjectTarget({ smooth: true });
+            updateProjectNav();
+        }
+        closeCategories();
+    });
 });
 
-document.addEventListener("click", () => setPracticeProjectsOpen(false));
+document.addEventListener("click", closeCategories);
 document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-        setPracticeProjectsOpen(false);
-    }
+    if (event.key === "Escape") closeCategories();
 });
 
 const cornerNav = document.querySelector(".corner-nav");
@@ -209,3 +218,7 @@ window.addEventListener("scroll", updateProjectNav, { passive: true });
 window.addEventListener("resize", updateProjectNav);
 window.addEventListener("hashchange", handlePageReady);
 window.addEventListener("load", handlePageReady);
+
+
+// Select the hash target before the first paint; load then aligns its scroll position.
+scrollToProjectTarget();
